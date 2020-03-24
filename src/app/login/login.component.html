@@ -1,0 +1,14 @@
+<div class="container">
+  <h3 class="floating">Login</h3>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-group floating">
+      <input type="text" id="username" formControlName="username" pattern="^[^<>]+$" required/>
+      <label for="username">Username</label>
+      <div *ngIf="submitted && loginForm.controls.username.errors" class="invalid-feedback">
+        <div *ngIf="loginForm.controls.username.errors.required">Username is required</div>
+        <div *ngIf="loginForm.controls.username.errors.pattern">Username error</div>
+      </div>
+    </div>
+    <button class="form-group floating" type="submit">Login</button>
+  </form>
+</div>
