@@ -1,6 +1,9 @@
 <div *ngIf="hand.length === 0">No hand</div>
-<ul *ngIf="hand.length !== 0">
-  <li *ngFor="let item of hand">
-    <img src="{{'../../../assets/' + item + '.png'}}" alt="{{item}}">
-  </li>
-</ul>
+<div *ngIf="hand.length !== 0">
+  <p *ngFor="let u of users">{{ u }}</p>
+  <ul>
+    <li *ngFor="let item of hand">
+      <img src="{{'../../../assets/' + item + '.png'}}" alt="{{ item }}">
+    </li>
+  </ul>
+</div>

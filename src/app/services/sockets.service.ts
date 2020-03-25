@@ -7,15 +7,33 @@ import * as io from 'socket.io-client';
 export class SocketsService {
 
   private socket: any;
-  public event = new EventEmitter();
+  public updateUsersEvent = new EventEmitter();
+  public handEvent = new EventEmitter();
+  public callTrumpEvent = new EventEmitter();
   public username: string;
 
   constructor() {
     this.socket = io('http://localhost:3000');
 
-    this.socket.on('hand', (data) => {
+    this.socket.on('updateUsers', data => {
+      const users = [];
+      for (const u of data.users) {
+        if (u !== this.username) {
+          users.push(u);
+        }
+      }
+      this.updateUsersEvent.emit(users);
+    });
+
+    this.socket.on('hand', data => {
       if (data.username === this.username) {
-        this.event.emit(data.hand);
+        this.handEvent.emit(data.hand);
+      }
+    });
+
+    this.socket.on('callTrump', data => {
+      if (data.username === this.username) {
+        this.callTrumpEvent.emit();
       }
     });
   }

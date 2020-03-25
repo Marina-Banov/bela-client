@@ -1,23 +1,34 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule, MatDialogModule } from '@angular/material';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { TrumpsComponent } from './trumps/trumps.component';
+
 import { AuthGuard } from './services/auth.guard';
 
 @NgModule({
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule
+  ],
   declarations: [
     AppComponent,
     LoginComponent,
-    MainComponent
+    MainComponent,
+    TrumpsComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule
+  entryComponents: [
+    TrumpsComponent
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

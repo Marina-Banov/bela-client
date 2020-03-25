@@ -1,0 +1,7 @@
+<h3 class="p_center">Odaberi adut:</h3>
+<ng-container *ngFor="let t of trumps">
+  <button [mat-dialog-close]="t" class="pick_trump">
+    <img src="{{'../../assets/' + t + '.png'}}" alt="{{t}}">
+  </button>
+</ng-container><br>
+<button [mat-dialog-close]="''" class="green_button">Dalje</button>

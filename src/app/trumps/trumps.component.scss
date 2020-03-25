@@ -1,0 +1,16 @@
+.pick_trump {
+  margin: 0 10px;
+  background: #eee;
+  border: none;
+  border-radius: 50px;
+  opacity: 0.8;
+  transition: opacity .1s ease-in;
+
+  img {
+    height: 80px;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
