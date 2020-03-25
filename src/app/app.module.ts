@@ -15,6 +15,7 @@ import { MainComponent } from './main/main.component';
 import { TrumpsComponent } from './trumps/trumps.component';
 
 import { AuthGuard } from './services/auth.guard';
+import { HandComponent } from './hand/hand.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { AuthGuard } from './services/auth.guard';
     AppComponent,
     LoginComponent,
     MainComponent,
-    TrumpsComponent
+    TrumpsComponent,
+    HandComponent
   ],
   entryComponents: [
     TrumpsComponent

@@ -1,0 +1,21 @@
+<ul *ngIf="!cardsToButtons && !cardsToCheckboxes">
+  <li *ngFor="let item of hand">
+    <img src="{{'../../../assets/' + item.sign + '.png'}}" alt="{{ item.sign }}">
+  </li>
+</ul>
+
+<form [formGroup]="scaleForm" *ngIf="cardsToCheckboxes">
+  <h3>Imaš li zvanja?</h3>
+  <label *ngFor="let item of hand">
+    <input type="checkbox" [value]="item.sign" (change)="onCheckChange($event)">
+    <img src="{{'../../../assets/' + item.sign + '.png'}}" alt="{{ item.sign }}">
+  </label>
+  <button class="green_button" (click)="calledScale($event)">YAS</button>
+  <button class="orange_button" (click)="calledScale($event)">NAH</button>
+</form>
+
+<div *ngIf="cardsToButtons">
+  <button *ngFor="let item of hand">
+    <img src="{{'../../../assets/' + item.sign + '.png'}}" alt="{{ item.sign }}">
+  </button>
+</div>

@@ -11,6 +11,7 @@ export class SocketsService {
   public handEvent = new EventEmitter();
   public callTrumpEvent = new EventEmitter();
   public setTrumpEvent = new EventEmitter();
+  public callScaleEvent = new EventEmitter();
   public username: string;
 
   constructor() {
@@ -45,6 +46,12 @@ export class SocketsService {
         }
       }
       this.setTrumpEvent.emit({ trump, hand });
+    });
+
+    this.socket.on('callScale', data => {
+      if (data.username === this.username) {
+        this.callScaleEvent.emit();
+      }
     });
   }
 

@@ -1,0 +1,19 @@
+@mixin action_buttons($color) {
+  color: white;
+  margin-top: 26px;
+  height: 40px;
+  width: 130px;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  background-color: $color;
+
+  &:hover {
+    background-color: white;
+    color: $color;
+    border: 1px solid $color;
+  }
+}
