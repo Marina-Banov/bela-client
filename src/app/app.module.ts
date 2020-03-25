@@ -5,8 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
-  MatDialogModule,
-  MAT_DIALOG_DEFAULT_OPTIONS
+  MatDialogModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -37,7 +36,6 @@ import { HandComponent } from './hand/hand.component';
     TrumpsComponent
   ],
   providers: [
-    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     AuthGuard
   ],
   bootstrap: [AppComponent]

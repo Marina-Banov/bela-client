@@ -1,13 +1,23 @@
 <div *ngIf="hand.length === 0" class="flex_center_center">No hand</div>
 
 <div *ngIf="hand.length !== 0">
-  <p *ngFor="let u of users">{{ u }}</p>
-
-  <div *ngIf="trump" class="trump">
-    <h3>Adut:</h3>
+  <div *ngIf="trump" class="trump p_center">
+    <h3>Adut</h3>
     <img src="{{'../../../assets/' + trump.trump + '.png'}}" alt="{{ trump.trump }}">
     <p>{{ trump.username }}</p>
   </div>
 
-  <app-hand [hand]="hand"></app-hand>
+  <div *ngIf="orderUsers.length === 3">
+    <div id="rival2" class="flex_center_center">
+      {{ orderUsers[1] }}
+    </div>
+    <div id="partner" class="flex_center_center">
+      {{ orderUsers[0] }}
+    </div>
+    <div id="rival1" class="flex_center_center">
+      {{ orderUsers[2] }}
+    </div>
+  </div>
+
+  <app-hand class="p_center" [hand]="hand" [display8]="display8"></app-hand>
 </div>

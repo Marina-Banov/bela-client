@@ -1,5 +1,7 @@
 ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 li {
@@ -8,6 +10,7 @@ li {
 
 img {
   height: 200px;
+  margin: 5px;
 }
 
 input {
@@ -17,8 +20,26 @@ input {
 label {
   display: inline-block;
   cursor: pointer;
+  img {
+    border-radius: 10px;
+    transition: 50ms;
+  }
 }
 
 input:checked ~ img {
-  transform: translateY(-10px);
+  transform: scale(1.05);
+  box-shadow: 0 0 3px 5px #F0BD17;
+}
+
+h3 {
+  display: inline;
+}
+
+.green_button, .orange_button {
+  width: 50px;
+  margin: 5px;
+}
+
+.green_button {
+  margin-left: 30px;
 }

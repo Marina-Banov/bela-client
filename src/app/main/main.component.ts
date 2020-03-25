@@ -13,8 +13,11 @@ export class MainComponent implements OnInit {
 
   users = [];
   hand = [];
+  myTeam = '';
   trump: any;
   trumpRef: MatDialogRef<any>;
+  display8 = false;
+  orderUsers = [];
 
   constructor(protected navigationService: NavigationService,
               protected socketsService: SocketsService,
@@ -24,8 +27,21 @@ export class MainComponent implements OnInit {
     this.socketsService.username = this.navigationService.username;
     this.socketsService.emit('newUser', this.navigationService.username);
 
+    this.socketsService.assignTeamEvent.subscribe(data => {
+      this.myTeam = data;
+    });
+
     this.socketsService.updateUsersEvent.subscribe(data => {
       this.users = data;
+      this.orderUsers = [];
+      const index = this.users.indexOf(this.users.find(u => u.team === this.myTeam));
+      if (index !== -1) {
+        let i = index;
+        do {
+          this.orderUsers.push(this.users[i].username);
+          i = (i + 1) % this.users.length;
+        } while (i !== index);
+      }
     });
 
     this.socketsService.handEvent.subscribe( data => {
@@ -33,15 +49,17 @@ export class MainComponent implements OnInit {
     });
 
     this.socketsService.callTrumpEvent.subscribe( data => {
-      this.trumpRef = this.dialog.open(TrumpsComponent, { autoFocus: false, data });
+      this.trumpRef = this.dialog.open(TrumpsComponent, { disableClose: true, autoFocus: false, data });
       this.trumpRef.afterClosed().subscribe( trump => {
         this.socketsService.emit('calledTrump', trump);
+        this.display8 = true;
       });
     });
 
     this.socketsService.setTrumpEvent.subscribe( data => {
       this.trump = data.trump;
       this.hand = data.hand;
+      this.display8 = true;
     });
   }
 

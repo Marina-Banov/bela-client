@@ -7,6 +7,7 @@ import * as io from 'socket.io-client';
 export class SocketsService {
 
   private socket = io('http://localhost:3000');
+  public assignTeamEvent = new EventEmitter();
   public updateUsersEvent = new EventEmitter();
   public handEvent = new EventEmitter();
   public callTrumpEvent = new EventEmitter();
@@ -15,11 +16,17 @@ export class SocketsService {
   public username: string;
 
   constructor() {
+    this.socket.on('assignTeam', data => {
+      if (data.username === this.username) {
+        this.assignTeamEvent.emit(data.team);
+      }
+    });
+
     this.socket.on('updateUsers', data => {
       const users = [];
       for (const u of data.users) {
         if (u.username !== this.username) {
-          users.push(u.username);
+          users.push({ username: u.username, team: u.team });
         }
       }
       this.updateUsersEvent.emit(users);

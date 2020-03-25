@@ -1,3 +1,39 @@
 .flex_center_center {
   height: 100vh;
 }
+
+.trump {
+  margin: 20px;
+  padding: 10px;
+  background-color: #eee;
+  display: inline-block;
+
+  h3, p {
+    margin: 0;
+  }
+
+  img {
+    max-height: 80px;
+    margin: 10px 0;
+  }
+}
+
+app-hand {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+}
+
+#rival1, #rival2, #partner {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background: #ddd;
+}
+
+#partner {
+  color: green;
+}
+#rival1, #rival2 {
+  color: red;
+}

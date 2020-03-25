@@ -10,6 +10,7 @@ import { SocketsService } from '../services/sockets.service';
 export class HandComponent implements OnInit {
 
   @Input() hand: any[];
+  @Input() display8: boolean;
   cardsToCheckboxes = false;
   cardsToButtons = false;
   scaleForm: FormGroup;
