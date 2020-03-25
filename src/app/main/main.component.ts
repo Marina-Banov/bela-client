@@ -13,6 +13,7 @@ export class MainComponent implements OnInit {
 
   users = [];
   hand = [];
+  trump: any;
   trumpRef: MatDialogRef<any>;
 
   constructor(protected navigationService: NavigationService,
@@ -36,6 +37,10 @@ export class MainComponent implements OnInit {
       this.trumpRef.afterClosed().subscribe( trump => {
         this.socketsService.emit('calledTrump', trump);
       });
+    });
+
+    this.socketsService.setTrumpEvent.subscribe( data => {
+      this.trump = data;
     });
   }
 

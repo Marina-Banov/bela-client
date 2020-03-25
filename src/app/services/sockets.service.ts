@@ -6,15 +6,14 @@ import * as io from 'socket.io-client';
 })
 export class SocketsService {
 
-  private socket: any;
+  private socket = io('http://localhost:3000');
   public updateUsersEvent = new EventEmitter();
   public handEvent = new EventEmitter();
   public callTrumpEvent = new EventEmitter();
+  public setTrumpEvent = new EventEmitter();
   public username: string;
 
   constructor() {
-    this.socket = io('http://localhost:3000');
-
     this.socket.on('updateUsers', data => {
       const users = [];
       for (const u of data.users) {
@@ -36,9 +35,14 @@ export class SocketsService {
         this.callTrumpEvent.emit();
       }
     });
+
+    this.socket.on('setTrump', data => {
+      this.setTrumpEvent.emit(data);
+    });
   }
 
   public emit(eventName: string, data: any) {
     this.socket.emit(eventName, data);
   }
+
 }

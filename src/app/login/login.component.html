@@ -1,14 +1,14 @@
 <div class="container">
-  <h3 class="floating">Login</h3>
+  <h2 class="floating p_center">Prijava</h2>
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="form-group floating">
       <input type="text" id="username" formControlName="username" pattern="^[^<>]+$" required/>
-      <label for="username">Username</label>
+      <label for="username">Korisničko ime</label>
       <div *ngIf="submitted && loginForm.controls.username.errors" class="invalid-feedback">
-        <div *ngIf="loginForm.controls.username.errors.required">Username is required</div>
-        <div *ngIf="loginForm.controls.username.errors.pattern">Username error</div>
+        <div *ngIf="loginForm.controls.username.errors.required">Obavezno polje</div>
+        <div *ngIf="loginForm.controls.username.errors.pattern">Molimo odaberite drugo korisničko ime</div>
       </div>
     </div>
-    <button class="form-group floating green_button" type="submit">Login</button>
+    <button class="form-group floating green_button" type="submit">Prijava</button>
   </form>
 </div>
