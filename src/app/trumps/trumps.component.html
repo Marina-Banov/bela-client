@@ -1,7 +1,13 @@
 <h2 class="p_center">Odaberi adut:</h2>
+
 <ng-container *ngFor="let t of trumps">
   <button [mat-dialog-close]="t" class="pick_trump_button">
     <img src="{{'../../assets/' + t + '.png'}}" alt="{{t}}">
   </button>
 </ng-container><br>
-<button [mat-dialog-close]="''" class="green_button">Dalje</button>
+
+<button *ngIf="!dealer"
+        [mat-dialog-close]="''"
+        class="green_button">
+  Dalje
+</button>

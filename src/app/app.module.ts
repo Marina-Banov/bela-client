@@ -3,7 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatDialogModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MAT_DIALOG_DEFAULT_OPTIONS
+} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -30,7 +34,10 @@ import { AuthGuard } from './services/auth.guard';
   entryComponents: [
     TrumpsComponent
   ],
-  providers: [AuthGuard],
+  providers: [
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

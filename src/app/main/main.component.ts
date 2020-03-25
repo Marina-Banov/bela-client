@@ -33,14 +33,15 @@ export class MainComponent implements OnInit {
     });
 
     this.socketsService.callTrumpEvent.subscribe( data => {
-      this.trumpRef = this.dialog.open(TrumpsComponent, { autoFocus: false });
+      this.trumpRef = this.dialog.open(TrumpsComponent, { autoFocus: false, data });
       this.trumpRef.afterClosed().subscribe( trump => {
         this.socketsService.emit('calledTrump', trump);
       });
     });
 
     this.socketsService.setTrumpEvent.subscribe( data => {
-      this.trump = data;
+      this.trump = data.trump;
+      this.hand = data.hand;
     });
   }
 

@@ -17,8 +17,8 @@ export class SocketsService {
     this.socket.on('updateUsers', data => {
       const users = [];
       for (const u of data.users) {
-        if (u !== this.username) {
-          users.push(u);
+        if (u.username !== this.username) {
+          users.push(u.username);
         }
       }
       this.updateUsersEvent.emit(users);
@@ -32,12 +32,19 @@ export class SocketsService {
 
     this.socket.on('callTrump', data => {
       if (data.username === this.username) {
-        this.callTrumpEvent.emit();
+        this.callTrumpEvent.emit(data.dealer === this.username);
       }
     });
 
     this.socket.on('setTrump', data => {
-      this.setTrumpEvent.emit(data);
+      const trump = { trump: data.trump, username: data.username };
+      let hand = [];
+      for (const u of data.users) {
+        if (u.username === this.username) {
+          hand = u.hand;
+        }
+      }
+      this.setTrumpEvent.emit({ trump, hand });
     });
   }
 

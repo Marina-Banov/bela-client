@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-trumps',
@@ -9,7 +10,7 @@ export class TrumpsComponent implements OnInit {
 
   private trumps = ['S', 'C', 'D', 'H'];
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public dealer: boolean) { }
 
   ngOnInit() {
   }
