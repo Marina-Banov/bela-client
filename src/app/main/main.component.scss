@@ -28,7 +28,12 @@ app-hand {
 app-table {
   display: block;
   margin: 0 auto;
-  padding-top: 50px;
   width: 80vw;
-  height: 470px;
+  height: 390px;
+}
+
+.notify {
+  position: relative;
+  display: inline-block;
+  margin: 1em 12vw;
 }

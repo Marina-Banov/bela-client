@@ -14,8 +14,14 @@ export class SocketsService {
   public setTrumpEvent = new EventEmitter();
   public callScaleEvent = new EventEmitter();
   public username: string;
+  public message: string;
 
   constructor() {
+
+    this.socket.on('message', data => {
+      this.message = data;
+    });
+
     this.socket.on('assignTeam', data => {
       if (data.username === this.username) {
         this.assignTeamEvent.emit(data.team);
