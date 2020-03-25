@@ -7,17 +7,7 @@
     <p>{{ trump.username }}</p>
   </div>
 
-  <div *ngIf="orderUsers.length === 3">
-    <div id="rival2" class="flex_center_center">
-      {{ orderUsers[1] }}
-    </div>
-    <div id="partner" class="flex_center_center">
-      {{ orderUsers[0] }}
-    </div>
-    <div id="rival1" class="flex_center_center">
-      {{ orderUsers[2] }}
-    </div>
-  </div>
+  <app-table [users]="users" [myTeam]="myTeam"></app-table>
 
   <app-hand class="p_center" [hand]="hand" [display8]="display8"></app-hand>
 </div>

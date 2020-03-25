@@ -3,6 +3,7 @@
 }
 
 .trump {
+  position: absolute;
   margin: 20px;
   padding: 10px;
   background-color: #eee;
@@ -24,16 +25,10 @@ app-hand {
   width: 100vw;
 }
 
-#rival1, #rival2, #partner {
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-  background: #ddd;
-}
-
-#partner {
-  color: green;
-}
-#rival1, #rival2 {
-  color: red;
+app-table {
+  display: block;
+  margin: 0 auto;
+  padding-top: 50px;
+  width: 80vw;
+  height: 470px;
 }

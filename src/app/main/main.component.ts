@@ -17,7 +17,6 @@ export class MainComponent implements OnInit {
   trump: any;
   trumpRef: MatDialogRef<any>;
   display8 = false;
-  orderUsers = [];
 
   constructor(protected navigationService: NavigationService,
               protected socketsService: SocketsService,
@@ -33,15 +32,6 @@ export class MainComponent implements OnInit {
 
     this.socketsService.updateUsersEvent.subscribe(data => {
       this.users = data;
-      this.orderUsers = [];
-      const index = this.users.indexOf(this.users.find(u => u.team === this.myTeam));
-      if (index !== -1) {
-        let i = index;
-        do {
-          this.orderUsers.push(this.users[i].username);
-          i = (i + 1) % this.users.length;
-        } while (i !== index);
-      }
     });
 
     this.socketsService.handEvent.subscribe( data => {

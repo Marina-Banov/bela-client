@@ -1,0 +1,18 @@
+<div class="container">
+  <div id="rival2" class="flex_center_center">
+    <span *ngIf="orderUsers.length === 3">
+      {{ orderUsers[1] }}
+    </span>
+  </div>
+  <div id="partner" class="flex_center_center">
+    <span *ngIf="orderUsers.length === 3">
+      {{ orderUsers[0] }}
+    </span>
+  </div>
+  <div id="rival1" class="flex_center_center">
+    <span *ngIf="orderUsers.length === 3">
+      {{ orderUsers[2] }}
+    </span>
+  </div>
+  <h3 *ngIf="orderUsers.length < 3" class="p_center">Čekamo druge igrače...</h3>
+</div>
