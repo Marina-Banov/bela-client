@@ -43,6 +43,7 @@ export class MainComponent implements OnInit {
       this.trumpRef.afterClosed().subscribe( trump => {
         this.socketsService.emit('calledTrump', trump);
         this.display8 = true;
+        this.hand.sort((a, b) => (a.scalePriority > b.scalePriority) ? 1 : -1);
       });
     });
 
@@ -50,6 +51,7 @@ export class MainComponent implements OnInit {
       this.trump = data.trump;
       this.hand = data.hand;
       this.display8 = true;
+      this.hand.sort((a, b) => (a.scalePriority > b.scalePriority) ? 1 : -1);
     });
   }
 

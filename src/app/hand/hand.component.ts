@@ -25,6 +25,8 @@ export class HandComponent implements OnInit {
   ngOnInit() {
     this.socketsService.callScaleEvent.subscribe(data => {
       this.cardsToCheckboxes = true;
+      const formArray = this.scaleForm.get('scale') as FormArray;
+      formArray.clear();
     });
   }
 
