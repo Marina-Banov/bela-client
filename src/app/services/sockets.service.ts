@@ -18,30 +18,25 @@ export class SocketsService {
 
   constructor() {
 
-    this.socket.on('message', data => {
-      this.message = data;
-    });
-
-    this.socket.on('assignTeam', data => {
-      if (data.username === this.username) {
-        this.assignTeamEvent.emit(data.team);
-      }
-    });
-
-    this.socket.on('updateUsers', data => {
-      let index = data.users.indexOf(data.users.find(x => x.username === this.username));
-      const orderedUsernames = [];
-      for (let i = 0; i < 4; i++) {
-        orderedUsernames.push(data.users[index].username);
-        index = (index + 1) % 4;
-      }
-      this.updateUsersEvent.emit(orderedUsernames);
+    this.socket.on('message', message => {
+      this.message = message;
     });
 
     this.socket.on('hand', data => {
       if (data.username === this.username) {
         this.handEvent.emit(data.hand);
       }
+    });
+
+    this.socket.on('updateUsers', users => {
+      let index = users.indexOf(users.find(x => x.username === this.username));
+      this.assignTeamEvent.emit(users[index].team);
+      const orderedUsernames = [];
+      for (let i = 0; i < 4; i++) {
+        orderedUsernames.push(users[index].username);
+        index = (index + 1) % 4;
+      }
+      this.updateUsersEvent.emit(orderedUsernames);
     });
 
     this.socket.on('callTrump', data => {
@@ -59,10 +54,18 @@ export class SocketsService {
       }
     });
 
-    this.socket.on('callScale', data => {
-      if (data.username === this.username) {
+    this.socket.on('callScale', username => {
+      if (username === this.username) {
         this.callScaleEvent.emit();
       }
+    });
+
+    this.socket.on('announceScale', data => {
+      console.log(data);
+    });
+
+    this.socket.on('showScales', data => {
+      console.log(data);
     });
   }
 
