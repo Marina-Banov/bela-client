@@ -1,17 +1,11 @@
 <div class="container">
   <div id="rival2" class="flex_center_center">
-    <span *ngIf="orderUsers.length === 3">
-      {{ orderUsers[1] }}
-    </span>
+    <span> {{ orderedUsernames ? orderedUsernames[3] : '' }} </span>
   </div>
   <div id="partner" class="flex_center_center">
-    <span *ngIf="orderUsers.length === 3">
-      {{ orderUsers[0] }}
-    </span>
+    <span> {{ orderedUsernames ? orderedUsernames[2] : '' }} </span>
   </div>
   <div id="rival1" class="flex_center_center">
-    <span *ngIf="orderUsers.length === 3">
-      {{ orderUsers[2] }}
-    </span>
+    <span> {{ orderedUsernames ? orderedUsernames[1] : '' }} </span>
   </div>
 </div>

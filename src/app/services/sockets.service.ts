@@ -29,13 +29,13 @@ export class SocketsService {
     });
 
     this.socket.on('updateUsers', data => {
-      const users = [];
-      for (const u of data.users) {
-        if (u.username !== this.username) {
-          users.push({ username: u.username, team: u.team });
-        }
+      let index = data.users.indexOf(data.users.find(x => x.username === this.username));
+      const orderedUsernames = [];
+      for (let i = 0; i < 4; i++) {
+        orderedUsernames.push(data.users[index].username);
+        index = (index + 1) % 4;
       }
-      this.updateUsersEvent.emit(users);
+      this.updateUsersEvent.emit(orderedUsernames);
     });
 
     this.socket.on('hand', data => {
@@ -46,19 +46,17 @@ export class SocketsService {
 
     this.socket.on('callTrump', data => {
       if (data.username === this.username) {
-        this.callTrumpEvent.emit(data.dealer === this.username);
+        this.callTrumpEvent.emit(data.lastCall);
       }
     });
 
     this.socket.on('setTrump', data => {
       const trump = { trump: data.trump, username: data.username };
-      let hand = [];
       for (const u of data.users) {
         if (u.username === this.username) {
-          hand = u.hand;
+          this.setTrumpEvent.emit({ trump, hand: u.hand });
         }
       }
-      this.setTrumpEvent.emit({ trump, hand });
     });
 
     this.socket.on('callScale', data => {

@@ -11,7 +11,7 @@ import { TrumpsComponent } from '../trumps/trumps.component';
 })
 export class MainComponent implements OnInit {
 
-  users = [];
+  orderedUsernames = [];
   hand = [];
   myTeam = '';
   trump: any;
@@ -31,7 +31,7 @@ export class MainComponent implements OnInit {
     });
 
     this.socketsService.updateUsersEvent.subscribe(data => {
-      this.users = data;
+      this.orderedUsernames = data;
     });
 
     this.socketsService.handEvent.subscribe( data => {
