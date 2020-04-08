@@ -2,26 +2,28 @@
 
 <app-no-hand *ngIf="showHand && hand.length === 0"></app-no-hand>
 
-<div *ngIf="showHand && hand.length !== 0">
-  <div id="other_info">
-    <div *ngIf="trump" class="p_center" id="trump">
-      <h3>Adut</h3>
-      <img src="{{'../../../assets/' + trump.trump + '.png'}}" alt="{{ trump.trump }}">
-      <p>{{ trump.username }}</p>
-    </div>
+<mat-sidenav-container *ngIf="showHand && hand.length !== 0">
+  <mat-sidenav #sidenav mode="side" opened>
+    <app-sidenav class="flex_column_space_between"
+                 [trump]="trump"
+                 [scaleAnnouncements]="socketsService.scaleAnnouncements">
+    </app-sidenav>
+  </mat-sidenav>
 
-    <div id="scales" *ngIf="socketsService.scaleAnnouncements.length">
-      <p *ngFor="let s of socketsService.scaleAnnouncements">{{ s }}</p>
-    </div>
-  </div>
+  <mat-sidenav-content>
+    <button (click)="sidenav.toggle()">
+      <google-icon name="more_vert"></google-icon>
+    </button>
 
+    <div class="flex_column_space_between">
+      <app-table [orderedUsernames]="orderedUsernames"
+                 [turn]="turn">
+      </app-table>
+
+      <app-hand class="p_center" [hand]="hand" [display8]="display8"></app-hand>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<!--
   <h3 class="notify">{{ socketsService.message }}</h3>
-
-  <app-score-board></app-score-board>
-
-  <app-table [orderedUsernames]="orderedUsernames"
-             [turn]="turn">
-  </app-table>
-
-  <app-hand class="p_center" [hand]="hand" [display8]="display8"></app-hand>
-</div>
+-->

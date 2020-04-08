@@ -22,6 +22,12 @@ body {
   align-items: center;
 }
 
+.flex_column_space_between {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
 h2, h3 {
   color: $bela-green;
   text-transform: uppercase;

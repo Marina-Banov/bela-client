@@ -1,7 +1,8 @@
-@import "../../scss/variables";
+@import "../../../scss/variables";
 
 table {
   border-spacing: 0;
+  margin-top: 10px;
 }
 
 thead th {
@@ -20,7 +21,8 @@ tfoot td {
 tr {
   th, td {
     padding: 5px;
-    width: 100px;
+    width: 85px;
+
     &:first-of-type {
       border-right: 1px solid $bela-orange;
     }

@@ -3,17 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatSidenavModule } from '@angular/material';
+import { GoogleIconModule } from 'google-icon';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { TrumpsComponent } from './trumps/trumps.component';
-import { HandComponent } from './hand/hand.component';
-import { TableComponent } from './table/table.component';
+import { HandComponent } from './main/hand/hand.component';
+import { TableComponent } from './main/table/table.component';
 import { ScalesComponent } from './scales/scales.component';
 import { NoHandComponent } from './no-hand/no-hand.component';
-import { ScoreBoardComponent } from './score-board/score-board.component';
+import { ScoreBoardComponent } from './sidenav/score-board/score-board.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
 
 import { AuthGuard } from './services/auth.guard';
 
@@ -23,7 +25,9 @@ import { AuthGuard } from './services/auth.guard';
     BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSidenavModule,
+    GoogleIconModule
   ],
   declarations: [
     AppComponent,
@@ -34,7 +38,8 @@ import { AuthGuard } from './services/auth.guard';
     TableComponent,
     ScalesComponent,
     NoHandComponent,
-    ScoreBoardComponent
+    ScoreBoardComponent,
+    SidenavComponent
   ],
   entryComponents: [
     TrumpsComponent,
