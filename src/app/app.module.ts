@@ -3,21 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatDialogModule
-} from '@angular/material';
+import { MatDialogModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { TrumpsComponent } from './trumps/trumps.component';
-
-import { AuthGuard } from './services/auth.guard';
 import { HandComponent } from './hand/hand.component';
 import { TableComponent } from './table/table.component';
 import { ScalesComponent } from './scales/scales.component';
 import { NoHandComponent } from './no-hand/no-hand.component';
+import { ScoreBoardComponent } from './score-board/score-board.component';
+
+import { AuthGuard } from './services/auth.guard';
 
 @NgModule({
   imports: [
@@ -25,8 +23,7 @@ import { NoHandComponent } from './no-hand/no-hand.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    MatDialogModule,
-    MatButtonModule
+    MatDialogModule
   ],
   declarations: [
     AppComponent,
@@ -36,7 +33,8 @@ import { NoHandComponent } from './no-hand/no-hand.component';
     HandComponent,
     TableComponent,
     ScalesComponent,
-    NoHandComponent
+    NoHandComponent,
+    ScoreBoardComponent
   ],
   entryComponents: [
     TrumpsComponent,

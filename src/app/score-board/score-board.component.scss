@@ -1,0 +1,28 @@
+@import "../../scss/variables";
+
+table {
+  border-spacing: 0;
+}
+
+thead th {
+  border-bottom: 2px solid $bela-orange;
+}
+
+tbody tr:first-of-type td {
+  background: #eee;
+}
+
+tfoot td {
+  border-top: 2px solid $bela-orange;
+  background: $bela-light-orange;
+}
+
+tr {
+  th, td {
+    padding: 5px;
+    width: 100px;
+    &:first-of-type {
+      border-right: 1px solid $bela-orange;
+    }
+  }
+}
