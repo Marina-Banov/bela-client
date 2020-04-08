@@ -12,6 +12,7 @@
     <button class="green_button" (click)="calledScale($event)">YAS</button>
     <button class="orange_button" (click)="calledScale($event)">NAH</button>
   </div>
+  <p>Svako zvanje prijaviti odvojeno, počevši od onoga koje nosi najviše bodova</p>
 
   <label *ngFor="let item of hand">
     <input type="checkbox" [value]="item.sign" (change)="onCheckChange($event)">

@@ -2,20 +2,29 @@
   height: 100vh;
 }
 
-.trump {
+#other_info {
   position: absolute;
-  margin: 20px;
-  padding: 10px;
-  background-color: #eee;
-  display: inline-block;
 
-  h3, p {
-    margin: 0;
+  #trump {
+    margin: 20px 20px 0;
+    padding: 10px;
+    background-color: #eee;
+    display: inline-block;
+
+    h3, p {
+      margin: 0;
+    }
+
+    img {
+      max-height: 80px;
+      margin: 10px 0;
+    }
   }
 
-  img {
-    max-height: 80px;
-    margin: 10px 0;
+  #scales {
+    margin: 20px 20px 0;
+    padding: 10px 25px;
+    background-color: #eee;
   }
 }
 
@@ -29,7 +38,7 @@ app-table {
   display: block;
   margin: 0 auto;
   width: 60vw;
-  height: 430px;
+  height: 400px;
 }
 
 .notify {

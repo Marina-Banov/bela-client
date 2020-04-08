@@ -1,3 +1,5 @@
+@import "../../variables";
+
 ul {
   list-style: none;
   padding: 0;
@@ -11,6 +13,13 @@ li {
 img {
   height: 200px;
   margin: 5px;
+}
+
+form p {
+  margin-top: 0;
+  font-size: 13px;
+  font-weight: bold;
+  color: $bela-dark-gray;
 }
 
 input {

@@ -1,10 +1,16 @@
 <div *ngIf="hand.length === 0" class="flex_center_center">No hand</div>
 
 <div *ngIf="hand.length !== 0">
-  <div *ngIf="trump" class="trump p_center">
-    <h3>Adut</h3>
-    <img src="{{'../../../assets/' + trump.trump + '.png'}}" alt="{{ trump.trump }}">
-    <p>{{ trump.username }}</p>
+  <div id="other_info">
+    <div *ngIf="trump" class="p_center" id="trump">
+      <h3>Adut</h3>
+      <img src="{{'../../../assets/' + trump.trump + '.png'}}" alt="{{ trump.trump }}">
+      <p>{{ trump.username }}</p>
+    </div>
+
+    <div id="scales" *ngIf="socketsService.scaleAnnouncements.length">
+      <p *ngFor="let s of socketsService.scaleAnnouncements">{{ s }}</p>
+    </div>
   </div>
 
   <h3 class="notify">{{ socketsService.message }}</h3>

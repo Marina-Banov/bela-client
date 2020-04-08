@@ -1,0 +1,10 @@
+<div>
+  <div *ngFor="let user of scalesByUser">
+    <h3 class="p_center">{{ user.username }}</h3>
+    <ul *ngFor="let hand of user.hand">
+      <li *ngFor="let card of hand">
+        <img src="{{ '../../assets/' + card + '.png' }}" alt="{{ card }}">
+      </li>
+    </ul>
+  </div>
+</div>

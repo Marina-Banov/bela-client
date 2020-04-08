@@ -1,5 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
+import { MatDialog } from '@angular/material/dialog';
+import { ScalesComponent } from '../scales/scales.component';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +17,9 @@ export class SocketsService {
   public callScaleEvent = new EventEmitter();
   public username: string;
   public message: string;
+  public scaleAnnouncements: string[] = [];
 
-  constructor() {
+  constructor(protected dialog: MatDialog) {
 
     this.socket.on('message', message => {
       this.message = message;
@@ -61,11 +64,13 @@ export class SocketsService {
     });
 
     this.socket.on('announceScale', data => {
-      console.log(data);
+      if (!this.scaleAnnouncements.find( x => x.includes(data.split(' ')[0]))) {
+        this.scaleAnnouncements.push(data);
+      }
     });
 
     this.socket.on('showScales', data => {
-      console.log(data);
+      this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: data.scales });
     });
   }
 
