@@ -1,6 +1,8 @@
-<div *ngIf="hand.length === 0" class="flex_center_center">No hand</div>
+<div *ngIf="!showHand" class="spinner"></div>
 
-<div *ngIf="hand.length !== 0">
+<app-no-hand *ngIf="showHand && hand.length === 0"></app-no-hand>
+
+<div *ngIf="showHand && hand.length !== 0">
   <div id="other_info">
     <div *ngIf="trump" class="p_center" id="trump">
       <h3>Adut</h3>
