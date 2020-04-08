@@ -12,6 +12,7 @@ export class SocketsService {
   public assignTeamEvent = new EventEmitter();
   public updateUsersEvent = new EventEmitter();
   public handEvent = new EventEmitter();
+  public highlightTurn = new EventEmitter();
   public callTrumpEvent = new EventEmitter();
   public setTrumpEvent = new EventEmitter();
   public callScaleEvent = new EventEmitter();
@@ -45,6 +46,9 @@ export class SocketsService {
     this.socket.on('callTrump', data => {
       if (data.username === this.username) {
         this.callTrumpEvent.emit(data.lastCall);
+        this.highlightTurn.emit('');
+      } else {
+        this.highlightTurn.emit(data.username);
       }
     });
 
@@ -60,6 +64,9 @@ export class SocketsService {
     this.socket.on('callScale', username => {
       if (username === this.username) {
         this.callScaleEvent.emit();
+        this.highlightTurn.emit('');
+      } else {
+        this.highlightTurn.emit(username);
       }
     });
 

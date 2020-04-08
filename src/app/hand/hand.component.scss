@@ -37,7 +37,7 @@ label {
 
 input:checked ~ img {
   transform: scale(1.05);
-  box-shadow: 0 0 3px 5px #F0BD17;
+  box-shadow: 0 0 3px 5px $bela-yellow;
 }
 
 h3 {

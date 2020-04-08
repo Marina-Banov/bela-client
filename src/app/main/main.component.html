@@ -17,7 +17,9 @@
 
   <h3 class="notify">{{ socketsService.message }}</h3>
 
-  <app-table [orderedUsernames]="orderedUsernames"></app-table>
+  <app-table [orderedUsernames]="orderedUsernames"
+             [turn]="turn">
+  </app-table>
 
   <app-hand class="p_center" [hand]="hand" [display8]="display8"></app-hand>
 </div>

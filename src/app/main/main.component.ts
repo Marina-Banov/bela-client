@@ -18,6 +18,7 @@ export class MainComponent implements OnInit {
   trump: any;
   trumpRef: MatDialogRef<any>;
   display8 = false;
+  turn = '';
 
   constructor(protected navigationService: NavigationService,
               protected socketsService: SocketsService,
@@ -38,6 +39,10 @@ export class MainComponent implements OnInit {
 
     this.socketsService.updateUsersEvent.subscribe(data => {
       this.orderedUsernames = data;
+    });
+
+    this.socketsService.highlightTurn.subscribe( data => {
+      this.turn = data;
     });
 
     this.socketsService.callTrumpEvent.subscribe( data => {
