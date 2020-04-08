@@ -16,11 +16,15 @@ export class ScalesComponent implements OnInit {
     for (const s of this.scales) {
       const index = this.scalesByUser.indexOf(this.scalesByUser.find(x => x.username === s.username));
       if (index !== -1) {
-        this.scalesByUser[index].hand.push(s.hand);
+        s.hand.forEach(card => {
+          if (!this.scalesByUser[index].hand.find(card)) {
+            this.scalesByUser[index].hand.push(card);
+          }
+        });
       } else {
         this.scalesByUser.push({
           username: s.username,
-          hand: [s.hand]
+          hand: s.hand
         });
       }
     }

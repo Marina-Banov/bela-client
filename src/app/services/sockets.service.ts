@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ScalesComponent } from '../scales/scales.component';
 
 @Injectable({
@@ -16,6 +16,7 @@ export class SocketsService {
   public callTrumpEvent = new EventEmitter();
   public setTrumpEvent = new EventEmitter();
   public callScaleEvent = new EventEmitter();
+  scaleRef: MatDialogRef<any>;
   public username: string;
   public message: string;
   public scaleAnnouncements: string[] = [];
@@ -77,7 +78,11 @@ export class SocketsService {
     });
 
     this.socket.on('showScales', data => {
-      this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: data.scales });
+      this.scaleAnnouncements = [];
+      this.scaleRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: data.scales });
+      setTimeout(() => {
+        this.scaleRef.close();
+      }, 3000);
     });
   }
 
