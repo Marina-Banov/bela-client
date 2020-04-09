@@ -15,7 +15,6 @@ export class MainComponent implements OnInit {
   orderedUsernames = [];
   hand = [];
   myTeam = '';
-  trump: any;
   trumpRef: MatDialogRef<any>;
   display8 = false;
   turn = '';
@@ -55,8 +54,7 @@ export class MainComponent implements OnInit {
     });
 
     this.socketsService.setTrumpEvent.subscribe( data => {
-      this.trump = data.trump;
-      this.hand = data.hand;
+      this.hand = data;
       this.display8 = true;
       this.hand.sort((a, b) => (a.scalePriority > b.scalePriority) ? 1 : -1);
     });

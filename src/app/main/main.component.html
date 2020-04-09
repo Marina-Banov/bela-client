@@ -5,7 +5,8 @@
 <mat-sidenav-container *ngIf="showHand && hand.length !== 0">
   <mat-sidenav #sidenav mode="side" opened>
     <app-sidenav class="flex_column_space_between"
-                 [trump]="trump"
+                 [trump]="socketsService.trump"
+                 [points]="socketsService.points"
                  [scaleAnnouncements]="socketsService.scaleAnnouncements">
     </app-sidenav>
   </mat-sidenav>

@@ -18,6 +18,8 @@ export class SocketsService {
   public setTrumpEvent = new EventEmitter();
   public callScaleEvent = new EventEmitter();
   public username: string;
+  public trump: any;
+  public points: any;
   public scaleAnnouncements: string[] = [];
   private dialogRef: MatDialogRef<any>;
 
@@ -60,10 +62,10 @@ export class SocketsService {
     });
 
     this.socket.on('setTrump', data => {
-      const trump = { trump: data.trump, username: data.username };
+      this.trump = { trump: data.trump, username: data.username };
       for (const u of data.users) {
         if (u.username === this.username) {
-          this.setTrumpEvent.emit({ trump, hand: u.hand });
+          this.setTrumpEvent.emit(u.hand);
         }
       }
     });
@@ -83,13 +85,17 @@ export class SocketsService {
       }
     });
 
-    this.socket.on('showScales', data => {
+    this.socket.on('showScales', scales => {
       this.scaleAnnouncements = [];
-      this.dialogRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: data.scales });
+      this.dialogRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: scales });
       setTimeout(() => {
         this.dialogRef.close();
         this.dialogRef = undefined;
       }, 4000);
+    });
+
+    this.socket.on('points', data => {
+      this.points = data;
     });
   }
 

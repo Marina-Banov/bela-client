@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SidenavComponent implements OnInit {
 
   @Input() trump: any;
+  @Input() points: any;
   @Input() scaleAnnouncements: string[];
 
   constructor() { }
