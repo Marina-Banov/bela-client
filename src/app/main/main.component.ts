@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SocketsService } from '../services/sockets.service';
 import { NavigationService } from '../services/navigation.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TrumpsComponent } from '../trumps/trumps.component';
+import { TrumpsComponent } from '../dialogs/trumps/trumps.component';
 
 @Component({
   selector: 'app-main',

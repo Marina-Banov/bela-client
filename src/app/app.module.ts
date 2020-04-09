@@ -8,14 +8,15 @@ import { GoogleIconModule } from 'google-icon';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { MainComponent } from './main/main.component';
-import { TrumpsComponent } from './trumps/trumps.component';
-import { HandComponent } from './main/hand/hand.component';
-import { TableComponent } from './main/table/table.component';
-import { ScalesComponent } from './scales/scales.component';
 import { NoHandComponent } from './no-hand/no-hand.component';
-import { ScoreBoardComponent } from './sidenav/score-board/score-board.component';
+import { MainComponent } from './main/main.component';
+import { TableComponent } from './main/table/table.component';
+import { HandComponent } from './main/hand/hand.component';
+import { TrumpsComponent } from './dialogs/trumps/trumps.component';
+import { ScalesComponent } from './dialogs/scales/scales.component';
+import { WaitingComponent } from './dialogs/waiting/waiting.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { ScoreBoardComponent } from './sidenav/score-board/score-board.component';
 
 import { AuthGuard } from './services/auth.guard';
 
@@ -32,16 +33,18 @@ import { AuthGuard } from './services/auth.guard';
   declarations: [
     AppComponent,
     LoginComponent,
-    MainComponent,
-    TrumpsComponent,
-    HandComponent,
-    TableComponent,
-    ScalesComponent,
     NoHandComponent,
-    ScoreBoardComponent,
-    SidenavComponent
+    MainComponent,
+    TableComponent,
+    HandComponent,
+    TrumpsComponent,
+    ScalesComponent,
+    WaitingComponent,
+    SidenavComponent,
+    ScoreBoardComponent
   ],
   entryComponents: [
+    WaitingComponent,
     TrumpsComponent,
     ScalesComponent
   ],

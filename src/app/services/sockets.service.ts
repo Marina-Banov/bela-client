@@ -1,7 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ScalesComponent } from '../scales/scales.component';
+import { ScalesComponent } from '../dialogs/scales/scales.component';
+import { WaitingComponent } from '../dialogs/waiting/waiting.component';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +17,16 @@ export class SocketsService {
   public callTrumpEvent = new EventEmitter();
   public setTrumpEvent = new EventEmitter();
   public callScaleEvent = new EventEmitter();
-  scaleRef: MatDialogRef<any>;
   public username: string;
-  public message: string;
   public scaleAnnouncements: string[] = [];
+  private dialogRef: MatDialogRef<any>;
 
   constructor(protected dialog: MatDialog) {
 
-    this.socket.on('message', message => {
-      this.message = message;
+    this.socket.on('waiting', () => {
+      if (!this.dialogRef) {
+        this.dialogRef = this.dialog.open(WaitingComponent, { disableClose: true, autoFocus: false });
+      }
     });
 
     this.socket.on('hand', data => {
@@ -42,6 +44,10 @@ export class SocketsService {
         index = (index + 1) % 4;
       }
       this.updateUsersEvent.emit(orderedUsernames);
+      if (this.dialogRef) {
+        this.dialogRef.close();
+        this.dialogRef = undefined;
+      }
     });
 
     this.socket.on('callTrump', data => {
@@ -79,10 +85,11 @@ export class SocketsService {
 
     this.socket.on('showScales', data => {
       this.scaleAnnouncements = [];
-      this.scaleRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: data.scales });
+      this.dialogRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: data.scales });
       setTimeout(() => {
-        this.scaleRef.close();
-      }, 3000);
+        this.dialogRef.close();
+        this.dialogRef = undefined;
+      }, 4000);
     });
   }
 
