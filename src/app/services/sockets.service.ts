@@ -19,7 +19,16 @@ export class SocketsService {
   public callScaleEvent = new EventEmitter();
   public username: string;
   public trump: any;
-  public points: any;
+  public points: any = {
+    games: [{
+      A: 0,
+      B: 0
+    }],
+    total: {
+      A: 0,
+      B: 0
+    }
+  };
   public scaleAnnouncements: string[] = [];
   private dialogRef: MatDialogRef<any>;
 
@@ -94,8 +103,12 @@ export class SocketsService {
       }, 4000);
     });
 
-    this.socket.on('points', data => {
+    this.socket.on('matchPoints', data => {
       this.points = data;
+    });
+
+    this.socket.on('gamePoints', data => {
+      this.points.games[0] = data;
     });
   }
 

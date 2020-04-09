@@ -1,4 +1,4 @@
-<table class="p_center" *ngIf="points">
+<table class="p_center">
   <thead><tr>
     <th>A</th>
     <th>B</th>
@@ -10,20 +10,5 @@
   <tfoot><tr>
     <td>{{ points.total.A }}</td>
     <td>{{ points.total.B }}</td>
-  </tr></tfoot>
-</table>
-
-<table class="p_center" *ngIf="!points">
-  <thead><tr>
-    <th>A</th>
-    <th>B</th>
-  </tr></thead>
-  <tbody><tr>
-    <td>0</td>
-    <td>0</td>
-  </tr></tbody>
-  <tfoot><tr>
-    <td>0</td>
-    <td>0</td>
   </tr></tfoot>
 </table>
