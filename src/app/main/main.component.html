@@ -18,10 +18,15 @@
 
     <div class="flex_column_space_between">
       <app-table [orderedUsernames]="orderedUsernames"
-                 [turn]="turn">
+                 [turn]="turn"
+                 [playedCards]="socketsService.playedCards">
       </app-table>
 
-      <app-hand class="p_center" [hand]="hand" [display8]="display8"></app-hand>
+      <app-hand class="p_center"
+                [hand]="hand"
+                [display8]="display8"
+                [cardsToButtons]="cardsToButtons">
+      </app-hand>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

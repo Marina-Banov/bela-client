@@ -9,6 +9,7 @@ export class TableComponent implements OnInit {
 
   @Input() orderedUsernames: any[];
   @Input() turn: string;
+  @Input() playedCards: any[];
 
   constructor() { }
 

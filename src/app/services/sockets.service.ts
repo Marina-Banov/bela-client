@@ -17,6 +17,7 @@ export class SocketsService {
   public callTrumpEvent = new EventEmitter();
   public setTrumpEvent = new EventEmitter();
   public callScaleEvent = new EventEmitter();
+  public playCardEvent = new EventEmitter();
   public username: string;
   public trump: any;
   public points: any = {
@@ -30,6 +31,7 @@ export class SocketsService {
     }
   };
   public scaleAnnouncements: string[] = [];
+  public playedCards: string[] = [];
   private dialogRef: MatDialogRef<any>;
 
   constructor(protected dialog: MatDialog) {
@@ -95,11 +97,11 @@ export class SocketsService {
     });
 
     this.socket.on('showScales', scales => {
-      this.scaleAnnouncements = [];
       this.dialogRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: scales });
       setTimeout(() => {
         this.dialogRef.close();
         this.dialogRef = undefined;
+        this.scaleAnnouncements = [];
       }, 4000);
     });
 
@@ -109,6 +111,20 @@ export class SocketsService {
 
     this.socket.on('gamePoints', data => {
       this.points.games[0] = data;
+    });
+
+    this.socket.on('playCard', username => {
+      if (username === this.username) {
+        this.playCardEvent.emit(true);
+        this.highlightTurn.emit('');
+      } else {
+        this.playCardEvent.emit(false);
+        this.highlightTurn.emit(username);
+      }
+    });
+
+    this.socket.on('acceptCard', data => {
+      this.playedCards.push(data);
     });
   }
 

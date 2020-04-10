@@ -11,8 +11,8 @@ export class HandComponent implements OnInit {
 
   @Input() hand: any[];
   @Input() display8: boolean;
+  @Input() cardsToButtons: boolean;
   cardsToCheckboxes = false;
-  cardsToButtons = false;
   scaleForm: FormGroup;
 
   constructor(protected socketsService: SocketsService,
@@ -33,7 +33,12 @@ export class HandComponent implements OnInit {
   calledScale(event) {
     event.preventDefault();
     this.socketsService.emit('calledScale', this.scaleForm.get('scale').value);
+    // this.socketsService.emit('calledScale', ['H7', 'C7', 'S7', 'D7']);
     this.cardsToCheckboxes = false;
+  }
+
+  playCard(card) {
+    this.socketsService.emit('cardPlayed', card);
   }
 
   onCheckChange(event) {

@@ -21,7 +21,7 @@
 </form>
 
 <div *ngIf="cardsToButtons">
-  <button *ngFor="let item of hand">
+  <button *ngFor="let item of hand" (click)="playCard(item)">
     <img src="{{'../../../assets/' + item.sign + '.png'}}" alt="{{ item.sign }}">
   </button>
 </div>

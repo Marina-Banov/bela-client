@@ -17,6 +17,7 @@ export class MainComponent implements OnInit {
   myTeam = '';
   trumpRef: MatDialogRef<any>;
   display8 = false;
+  cardsToButtons = false;
   turn = '';
 
   constructor(protected navigationService: NavigationService,
@@ -57,6 +58,10 @@ export class MainComponent implements OnInit {
       this.hand = data;
       this.display8 = true;
       this.hand.sort((a, b) => (a.scalePriority > b.scalePriority) ? 1 : -1);
+    });
+
+    this.socketsService.playCardEvent.subscribe( data => {
+      this.cardsToButtons = data;
     });
   }
 

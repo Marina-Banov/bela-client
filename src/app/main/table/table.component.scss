@@ -30,3 +30,35 @@
 #rival2 {
   top: 50%;
 }
+
+.cards {
+  position: absolute;
+
+  &.c0 {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.c1 {
+    right: 50%;
+    top: 50%;
+    transform: translate(200%, -50%);
+  }
+
+  &.c2 {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.c3 {
+    left: 50%;
+    top: 50%;
+    transform: translate(-200%, -50%);
+  }
+
+  img {
+    height: 180px;
+  }
+}
