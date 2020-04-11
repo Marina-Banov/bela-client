@@ -107,10 +107,16 @@ export class SocketsService {
 
     this.socket.on('matchPoints', data => {
       this.points = data;
+      if (this.playedCards.length === 4) {
+        setTimeout(() => { this.playedCards = []; }, 2000);
+      }
     });
 
     this.socket.on('gamePoints', data => {
       this.points.games[0] = data;
+      if (this.playedCards.length === 4) {
+        setTimeout(() => { this.playedCards = []; }, 2000);
+      }
     });
 
     this.socket.on('playCard', username => {
