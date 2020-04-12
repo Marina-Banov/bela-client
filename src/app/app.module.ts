@@ -19,6 +19,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { ScoreBoardComponent } from './sidenav/score-board/score-board.component';
 
 import { AuthGuard } from './services/auth.guard';
+import { EnvService } from '../environments/env.service';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { AuthGuard } from './services/auth.guard';
     ScalesComponent
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    EnvService
   ],
   bootstrap: [AppComponent]
 })

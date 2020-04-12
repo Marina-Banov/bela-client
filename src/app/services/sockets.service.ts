@@ -3,13 +3,14 @@ import * as io from 'socket.io-client';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ScalesComponent } from '../dialogs/scales/scales.component';
 import { WaitingComponent } from '../dialogs/waiting/waiting.component';
+import { EnvService } from '../../environments/env.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketsService {
 
-  private socket = io('http://localhost:3000');
+  private socket: any;
   public assignTeamEvent = new EventEmitter();
   public updateUsersEvent = new EventEmitter();
   public handEvent = new EventEmitter();
@@ -34,7 +35,10 @@ export class SocketsService {
   public playedCards: string[] = [];
   private dialogRef: MatDialogRef<any>;
 
-  constructor(protected dialog: MatDialog) {
+  constructor(private env: EnvService,
+              protected dialog: MatDialog) {
+
+    this.socket = io(env.apiUrl);
 
     this.socket.on('waiting', () => {
       if (!this.dialogRef) {
