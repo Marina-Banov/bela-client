@@ -14,7 +14,7 @@ export class MainComponent implements OnInit {
   orderedUsernames: string[] = [];
   hand: string[] = [];
   trumpRef: MatDialogRef<any>;
-  display8 = false;
+  display8: boolean;
   cardsToButtons = false;
 
   constructor(protected socketsService: SocketsService,
@@ -22,8 +22,9 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.socketsService.handEvent.subscribe( data => {
+      this.display8 = data.display8;
       this.showHand = true;
-      this.hand = data;
+      this.hand = data.hand;
     });
 
     this.socketsService.updateUsernamesEvent.subscribe(data => {
@@ -36,10 +37,6 @@ export class MainComponent implements OnInit {
         this.socketsService.emit('calledTrump', trump);
         this.display8 = true;
       });
-    });
-
-    this.socketsService.setTrumpEvent.subscribe( data => {
-      this.display8 = true;
     });
 
     this.socketsService.playCardEvent.subscribe( data => {

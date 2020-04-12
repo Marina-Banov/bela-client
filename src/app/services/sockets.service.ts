@@ -15,10 +15,9 @@ export class SocketsService {
   private readonly username: string;
   private dialogRef: MatDialogRef<any>;
 
-  public handEvent = new EventEmitter<string[]>();
+  public handEvent = new EventEmitter<any>();
   public updateUsernamesEvent = new EventEmitter<string[]>();
   public callTrumpEvent = new EventEmitter<boolean>();
-  public setTrumpEvent = new EventEmitter<any>();
   public callScaleEvent = new EventEmitter<any>();
   public playCardEvent = new EventEmitter<boolean>();
 
@@ -38,11 +37,13 @@ export class SocketsService {
     this.socket = io(env.apiUrl);
     this.username = this.navigationService.username;
     this.emit('newUser', this.username);
-    this.dialogRef = this.dialog.open(WaitingComponent, { disableClose: true });
 
     this.socket.on('hand', (data: any) => {
+      if (!this.dialogRef) {
+        this.dialogRef = this.dialog.open(WaitingComponent, { disableClose: true });
+      }
       if (data.username === this.username) {
-        this.handEvent.emit(data.hand);
+        this.handEvent.emit({ hand: data.hand, display8: data.display8 });
       }
     });
 
@@ -56,7 +57,6 @@ export class SocketsService {
       setTimeout( () => {
         this.updateUsernamesEvent.emit(orderedUsernames);
         this.dialogRef.close();
-        this.dialogRef = undefined;
       }, 1500);
     });
 
@@ -69,7 +69,6 @@ export class SocketsService {
 
     this.socket.on('setTrump', (data: any) => {
       this.trump = data;
-      this.setTrumpEvent.emit();
     });
 
     this.socket.on('callScale', (username: string) => {
@@ -89,22 +88,24 @@ export class SocketsService {
       this.dialogRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: scales });
       setTimeout(() => {
         this.dialogRef.close();
-        this.dialogRef = undefined;
         this.announcements = [];
       }, 4000);
     });
 
     this.socket.on('matchPoints', (data: any) => {
       this.points = data;
-      if (this.playedCards.length === 4) {
-        setTimeout(() => { this.playedCards = []; }, 2000);
-      }
+      this.playedCards = [];
+      this.announcements = [];
+      this.playCardEvent.emit(false);
     });
 
     this.socket.on('gamePoints', (data: any) => {
       this.points.games[0] = data;
-      if (this.playedCards.length === 4) {
-        setTimeout(() => { this.playedCards = []; }, 2000);
+      this.playedCards = [];
+      if (this.announcements.length === 4) {
+        setTimeout(() => {
+          this.announcements = [];
+        }, 2000);
       }
     });
 
@@ -119,7 +120,6 @@ export class SocketsService {
 
     this.socket.on('fail', (team: string) => {
       this.announcements = ['Team ' + team + ' je pao!'];
-      setTimeout(() => { this.announcements = []; }, 2000);
     });
   }
 
