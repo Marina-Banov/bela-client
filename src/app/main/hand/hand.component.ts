@@ -9,7 +9,7 @@ import { SocketsService } from '../../services/sockets.service';
 })
 export class HandComponent implements OnInit {
 
-  @Input() hand: any[];
+  @Input() hand: string[];
   @Input() display8: boolean;
   @Input() cardsToButtons: boolean;
   cardsToCheckboxes = false;

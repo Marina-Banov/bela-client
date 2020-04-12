@@ -9,7 +9,7 @@ export class SidenavComponent implements OnInit {
 
   @Input() trump: any;
   @Input() points: any;
-  @Input() scaleAnnouncements: string[];
+  @Input() announcements: string[];
 
   constructor() { }
 

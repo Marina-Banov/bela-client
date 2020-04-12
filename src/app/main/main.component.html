@@ -7,7 +7,7 @@
     <app-sidenav class="flex_column_space_between"
                  [trump]="socketsService.trump"
                  [points]="socketsService.points"
-                 [scaleAnnouncements]="socketsService.scaleAnnouncements">
+                 [announcements]="socketsService.announcements">
     </app-sidenav>
   </mat-sidenav>
 
@@ -18,7 +18,7 @@
 
     <div class="flex_column_space_between">
       <app-table [orderedUsernames]="orderedUsernames"
-                 [turn]="turn"
+                 [turn]="socketsService.turn"
                  [playedCards]="socketsService.playedCards">
       </app-table>
 

@@ -1,12 +1,8 @@
 <div class="container">
-  <div id="rival2" class="flex_center_center" [class.turn]="turn === orderedUsernames[3]">
-    <span> {{ orderedUsernames ? orderedUsernames[3] : '' }} </span>
-  </div>
-  <div id="partner" class="flex_center_center" [class.turn]="turn === orderedUsernames[2]">
-    <span> {{ orderedUsernames ? orderedUsernames[2] : '' }} </span>
-  </div>
-  <div id="rival1" class="flex_center_center" [class.turn]="turn === orderedUsernames[1]">
-    <span> {{ orderedUsernames ? orderedUsernames[1] : '' }} </span>
+  <div *ngFor="let i of [0, 1, 2, 3];"
+       class="username flex_center_center"
+       [class.turn]="turn === orderedUsernames[i]">
+    <span> {{ orderedUsernames ? orderedUsernames[i] : '' }} </span>
   </div>
 
   <div *ngFor="let c of playedCards"
