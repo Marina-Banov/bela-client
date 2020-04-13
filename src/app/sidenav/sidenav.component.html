@@ -8,9 +8,13 @@
 
 <div class="sidenav-item">
   <h3>Bodovi</h3>
-  <app-score-board [points]="points"></app-score-board>
+  <app-score-board *ngIf="teams" [points]="points"></app-score-board>
 </div>
 
-<div class="sidenav-item" *ngIf="announcements">
+<!--<div class="sidenav-item" *ngIf="announcements">
   <p *ngFor="let a of announcements">{{ a }}</p>
+</div>-->
+<div class="sidenav-item">
+  <h3>Timovi</h3>
+  <app-team-board *ngIf="teams" [teams]="teams"></app-team-board>
 </div>

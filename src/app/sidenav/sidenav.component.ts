@@ -10,6 +10,7 @@ export class SidenavComponent implements OnInit {
   @Input() trump: any;
   @Input() points: any;
   @Input() announcements: string[];
+  @Input() teams: any;
 
   constructor() { }
 

@@ -4,6 +4,10 @@ mat-sidenav-container, .flex_column_space_between, app-sidenav {
   min-height: 100vh;
 }
 
+app-sidenav {
+  min-width: 220px;
+}
+
 button {
   position: absolute;
   margin: 20px;

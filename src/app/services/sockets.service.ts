@@ -30,6 +30,7 @@ export class SocketsService {
   public announcements: string[] = [];
   public turn = '';
   public playedCards: string[] = [];
+  public teams: any;
 
   constructor(private env: EnvService,
               protected navigationService: NavigationService,
@@ -48,15 +49,16 @@ export class SocketsService {
       }
     });
 
-    this.socket.on('updateUsernames', (usernames: string[]) => {
-      let index = usernames.indexOf(usernames.find(x => x === this.username));
+    this.socket.on('updateUsers', (data: any) => {
+      let index = data.usernames.indexOf(data.usernames.find(x => x === this.username));
       const orderedUsernames = [];
       for (let i = 0; i < 4; i++) {
-        orderedUsernames.push(usernames[index]);
+        orderedUsernames.push(data.usernames[index]);
         index = (index + 1) % 4;
       }
       setTimeout( () => {
         this.updateUsernamesEvent.emit(orderedUsernames);
+        this.teams = data.teams;
         this.dialogRef.close();
       }, 1500);
     });

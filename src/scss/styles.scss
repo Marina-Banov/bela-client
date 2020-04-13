@@ -45,6 +45,31 @@ button {
   @include action_buttons($bela-orange);
 }
 
+table {
+  border-spacing: 0;
+  margin-top: 10px;
+
+  thead th {
+    border-bottom: 2px solid $bela-orange;
+  }
+
+  tfoot td {
+    border-top: 2px solid $bela-orange;
+    background: $bela-light-orange;
+  }
+
+  tr {
+    th, td {
+      padding: 5px;
+      width: 85px;
+
+      &:first-of-type {
+        border-right: 1px solid $bela-orange;
+      }
+    }
+  }
+}
+
 .spinner {
   border-radius: 50%;
   width: 7vw;

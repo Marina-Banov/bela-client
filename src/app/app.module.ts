@@ -17,6 +17,7 @@ import { ScalesComponent } from './dialogs/scales/scales.component';
 import { WaitingComponent } from './dialogs/waiting/waiting.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ScoreBoardComponent } from './sidenav/score-board/score-board.component';
+import { TeamBoardComponent } from './sidenav/team-board/team-board.component';
 
 import { AuthGuard } from './services/auth.guard';
 import { EnvService } from '../environments/env.service';
@@ -42,7 +43,8 @@ import { EnvService } from '../environments/env.service';
     ScalesComponent,
     WaitingComponent,
     SidenavComponent,
-    ScoreBoardComponent
+    ScoreBoardComponent,
+    TeamBoardComponent
   ],
   entryComponents: [
     WaitingComponent,
