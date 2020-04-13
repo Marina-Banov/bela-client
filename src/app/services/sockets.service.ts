@@ -20,6 +20,7 @@ export class SocketsService {
   public callTrumpEvent = new EventEmitter<boolean>();
   public callScaleEvent = new EventEmitter<any>();
   public playCardEvent = new EventEmitter<boolean>();
+  public callBelaEvent = new EventEmitter<string>();
 
   public trump: any;
   public points: any = {
@@ -94,15 +95,13 @@ export class SocketsService {
 
     this.socket.on('matchPoints', (data: any) => {
       this.points = data;
-      this.playedCards = [];
       this.announcements = [];
       this.playCardEvent.emit(false);
     });
 
     this.socket.on('gamePoints', (data: any) => {
       this.points.games[0] = data;
-      this.playedCards = [];
-      if (this.announcements.length === 4) {
+      if (this.announcements.length > 0) {
         setTimeout(() => {
           this.announcements = [];
         }, 2000);
@@ -116,6 +115,17 @@ export class SocketsService {
 
     this.socket.on('acceptCard', (data: any) => {
       this.playedCards.push(data);
+      if (this.playedCards.length === 4) {
+        setTimeout(() => {
+          this.playedCards = [];
+        }, 2000);
+      }
+    });
+
+    this.socket.on('callBela', (data: any) => {
+      if (data.username === this.username) {
+        this.callBelaEvent.emit(data.card);
+      }
     });
 
     this.socket.on('fail', (team: string) => {

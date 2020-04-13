@@ -14,6 +14,10 @@ export class HandComponent implements OnInit {
   @Input() cardsToButtons: boolean;
   cardsToCheckboxes = false;
   scaleForm: FormGroup;
+  bela: any = {
+    card: '',
+    callBela: false
+  };
 
   constructor(protected socketsService: SocketsService,
               protected formBuilder: FormBuilder) {
@@ -28,6 +32,11 @@ export class HandComponent implements OnInit {
       const formArray = this.scaleForm.get('scale') as FormArray;
       formArray.clear();
     });
+
+    this.socketsService.callBelaEvent.subscribe(data => {
+      this.bela.card = data;
+      this.bela.callBela = true;
+    });
   }
 
   calledScale(event) {
@@ -39,6 +48,11 @@ export class HandComponent implements OnInit {
 
   playCard(card) {
     this.socketsService.emit('cardPlayed', card);
+  }
+
+  callBela(called) {
+    this.socketsService.emit('calledBela', { card: this.bela.card, called });
+    this.bela.callBela = false;
   }
 
   onCheckChange(event) {

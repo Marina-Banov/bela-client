@@ -21,10 +21,10 @@
 </form>
 
 <div *ngIf="cardsToButtons && socketsService.playedCards.length !== 4">
-  <div class="flex_center_center" *ngIf="false">
+  <div class="flex_center_center" *ngIf="bela.callBela">
     <h3>Želiš li zvati belu?</h3>
-    <button class="green_button">YAS</button>
-    <button class="orange_button">NAH</button>
+    <button class="green_button" (click)="callBela(true)">YAS</button>
+    <button class="orange_button" (click)="callBela(false)">NAH</button>
   </div>
 
   <button class="play_card_button" *ngFor="let card of hand" (click)="playCard(card)">
