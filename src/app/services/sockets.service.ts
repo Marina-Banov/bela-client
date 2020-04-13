@@ -1,8 +1,10 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ScalesComponent } from '../dialogs/scales/scales.component';
 import { WaitingComponent } from '../dialogs/waiting/waiting.component';
+import { TrumpsComponent } from '../dialogs/trumps/trumps.component';
+import { NotificationComponent } from '../dialogs/notification/notification.component';
+import { ScalesComponent } from '../dialogs/scales/scales.component';
 import { EnvService } from '../../environments/env.service';
 import { NavigationService } from './navigation.service';
 
@@ -17,20 +19,20 @@ export class SocketsService {
 
   public handEvent = new EventEmitter<any>();
   public updateUsernamesEvent = new EventEmitter<string[]>();
-  public callTrumpEvent = new EventEmitter<boolean>();
   public callScaleEvent = new EventEmitter<any>();
   public playCardEvent = new EventEmitter<boolean>();
   public callBelaEvent = new EventEmitter<string>();
 
   public trump: any;
+  public teams: any;
   public points: any = {
     games: [{ A: 0, B: 0 }],
     total:  { A: 0, B: 0 }
   };
-  public announcements: string[] = [];
+  public scales: any[] = [];
+  // public announcements: string[] = [];
   public turn = '';
   public playedCards: string[] = [];
-  public teams: any;
 
   constructor(private env: EnvService,
               protected navigationService: NavigationService,
@@ -57,17 +59,20 @@ export class SocketsService {
         index = (index + 1) % 4;
       }
       setTimeout( () => {
+        this.dialogRef.close();
         this.updateUsernamesEvent.emit(orderedUsernames);
         this.teams = data.teams;
-        this.dialogRef.close();
-      }, 1500);
+      }, 1000);
     });
 
     this.socket.on('callTrump', (data: any) => {
-      if (data.username === this.username) {
-        this.callTrumpEvent.emit(data.lastCall);
-      }
       this.turn = data.username;
+      if (data.username === this.username) {
+        this.dialogRef = this.dialog.open(TrumpsComponent, { disableClose: true, autoFocus: false, data: data.lastCall });
+        this.dialogRef.afterClosed().subscribe( trump => {
+          this.emit('calledTrump', trump);
+        });
+      }
     });
 
     this.socket.on('setTrump', (data: any) => {
@@ -75,15 +80,19 @@ export class SocketsService {
     });
 
     this.socket.on('callScale', (username: string) => {
+      this.turn = username;
       if (username === this.username) {
         this.callScaleEvent.emit();
       }
-      this.turn = username;
     });
 
-    this.socket.on('announceScale', (data: string) => {
-      if (!this.announcements.find( x => x.includes(data.split(' ')[0]))) {
-        this.announcements.push(data);
+    this.socket.on('announceScale', (data: any) => {
+      if (data.bela) {
+        this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: 'BELA!' });
+        setTimeout( () => { this.dialogRef.close(); }, 1000);
+      } else if (!this.scales.find( x => x.username === data.username)) {
+        const points = data.points ? data.points + '!' : 'Dalje!';
+        this.scales.push({ username: data.username, points });
       }
     });
 
@@ -91,28 +100,27 @@ export class SocketsService {
       this.dialogRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: scales });
       setTimeout(() => {
         this.dialogRef.close();
-        this.announcements = [];
+        this.scales = [];
       }, 4000);
     });
 
     this.socket.on('matchPoints', (data: any) => {
       this.points = data;
-      this.announcements = [];
       this.playCardEvent.emit(false);
     });
 
     this.socket.on('gamePoints', (data: any) => {
       this.points.games[0] = data;
-      if (this.announcements.length > 0) {
+      if (this.scales.length > 0) {
         setTimeout(() => {
-          this.announcements = [];
-        }, 2000);
+          this.scales = [];
+        }, 4000);
       }
     });
 
     this.socket.on('playCard', (username: string) => {
-      this.playCardEvent.emit(username === this.username);
       this.turn = username;
+      this.playCardEvent.emit(username === this.username);
     });
 
     this.socket.on('acceptCard', (data: any) => {
@@ -131,7 +139,8 @@ export class SocketsService {
     });
 
     this.socket.on('fail', (team: string) => {
-      this.announcements = ['Team ' + team + ' je pao!'];
+      this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: 'Team ' + team + ' je pao!' });
+      setTimeout( () => { this.dialogRef.close(); }, 1000);
     });
   }
 

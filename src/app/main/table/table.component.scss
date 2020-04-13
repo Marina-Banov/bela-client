@@ -68,3 +68,36 @@
     height: 100%;
   }
 }
+
+.scales {
+  position: absolute;
+  margin: 10px;
+  border-radius: 4px;
+  padding: 15px;
+  background: $bela-light-orange;
+  box-shadow: 0 0 4px 2px $bela-orange;
+
+  &.s0 {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(50%);
+  }
+
+  &.s1 {
+    right: 0;
+    top: 50%;
+    transform: translateY(-200%);
+  }
+
+  &.s2 {
+    top: 0;
+    right: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.s3 {
+    left: 0;
+    top: 50%;
+    transform: translateY(50%);
+  }
+}

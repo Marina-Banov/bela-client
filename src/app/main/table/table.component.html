@@ -5,6 +5,15 @@
     <span> {{ orderedUsernames ? orderedUsernames[i] : '' }} </span>
   </div>
 
+  <div *ngFor="let s of scales"
+       class="scales"
+       [class.s0]="s.username === orderedUsernames[0]"
+       [class.s1]="s.username === orderedUsernames[1]"
+       [class.s2]="s.username === orderedUsernames[2]"
+       [class.s3]="s.username === orderedUsernames[3]">
+    {{ s.points }}
+  </div>
+
   <div *ngFor="let c of playedCards"
        class="cards"
        [class.c0]="c.username === orderedUsernames[0]"

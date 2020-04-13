@@ -18,6 +18,7 @@ import { WaitingComponent } from './dialogs/waiting/waiting.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ScoreBoardComponent } from './sidenav/score-board/score-board.component';
 import { TeamBoardComponent } from './sidenav/team-board/team-board.component';
+import { NotificationComponent } from './dialogs/notification/notification.component';
 
 import { AuthGuard } from './services/auth.guard';
 import { EnvService } from '../environments/env.service';
@@ -44,12 +45,14 @@ import { EnvService } from '../environments/env.service';
     WaitingComponent,
     SidenavComponent,
     ScoreBoardComponent,
-    TeamBoardComponent
+    TeamBoardComponent,
+    NotificationComponent
   ],
   entryComponents: [
     WaitingComponent,
     TrumpsComponent,
-    ScalesComponent
+    ScalesComponent,
+    NotificationComponent
   ],
   providers: [
     AuthGuard,

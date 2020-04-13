@@ -34,8 +34,8 @@ export class HandComponent implements OnInit {
     });
 
     this.socketsService.callBelaEvent.subscribe(data => {
-      this.bela.card = data;
       this.bela.callBela = true;
+      this.bela.card = data;
     });
   }
 
