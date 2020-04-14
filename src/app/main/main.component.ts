@@ -17,6 +17,10 @@ export class MainComponent implements OnInit {
   constructor(protected socketsService: SocketsService) { }
 
   ngOnInit() {
+    if (!this.socketsService.connected) {
+      this.socketsService.connect();
+    }
+
     this.socketsService.handEvent.subscribe( data => {
       this.showHand = true;
       this.hand = data.hand;

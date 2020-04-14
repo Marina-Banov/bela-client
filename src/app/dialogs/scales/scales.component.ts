@@ -17,7 +17,7 @@ export class ScalesComponent implements OnInit {
       const index = this.scalesByUser.indexOf(this.scalesByUser.find(x => x.username === s.username));
       if (index !== -1) {
         s.hand.forEach(card => {
-          if (!this.scalesByUser[index].hand.find(card)) {
+          if (!this.scalesByUser[index].hand.find(x => x === card)) {
             this.scalesByUser[index].hand.push(card);
           }
         });
