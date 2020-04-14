@@ -34,10 +34,51 @@ export class SocketsService {
   constructor(private env: EnvService,
               protected dialog: MatDialog,
               protected router: Router) {
-    this.connected = false;
     this.restart();
     this.connect();
+  }
 
+  public connect(): void {
+    this.socket = io(this.env.apiUrl);
+    this.connected = true;
+    this.newUser(sessionStorage.getItem('username'));
+  }
+
+  public disconnect(username: string): void {
+    sessionStorage.removeItem('username');
+    this.emit('killedMatch', username);
+    this.socket.disconnect();
+    this.router.navigate(['/login']);
+    this.dialogRef.close();
+    this.connected = false;
+  }
+
+  public restart(): void {
+    this.connected = false;
+    this.username = '';
+    this.trump = undefined;
+    this.teams = undefined;
+    this.points = {
+      games: [{ A: 0, B: 0 }],
+      total:  { A: 0, B: 0 }
+    };
+    this.scales = [];
+    this.turn = '';
+    this.playedCards = [];
+  }
+
+  public emit(eventName: string, data: any): void {
+    this.socket.emit(eventName, data);
+  }
+
+  public newUser(username: string): void {
+    this.username = username;
+    this.emit('newUser', username);
+    this.dialogRef = undefined;
+    this.setEvents();
+  }
+
+  private setEvents(): void {
     this.socket.on('hand', (data: any) => {
       if (!this.dialogRef) {
         this.dialogRef = this.dialog.open(WaitingComponent, { disableClose: true });
@@ -153,43 +194,5 @@ export class SocketsService {
         this.disconnect(this.username);
       }, 4000);
     });
-  }
-
-  public emit(eventName: string, data: any) {
-    this.socket.emit(eventName, data);
-  }
-
-  public restart() {
-    this.username = '';
-    this.trump = undefined;
-    this.teams = undefined;
-    this.points = {
-      games: [{ A: 0, B: 0 }],
-      total:  { A: 0, B: 0 }
-    };
-    this.scales = [];
-    this.turn = '';
-    this.playedCards = [];
-  }
-
-  newUser(username) {
-    this.username = username;
-    this.emit('newUser', username);
-    this.dialogRef = undefined;
-  }
-
-  disconnect(username) {
-    sessionStorage.removeItem('username');
-    this.emit('killedMatch', username);
-    this.socket.disconnect();
-    this.router.navigate(['/login']);
-    this.dialogRef.close();
-    this.connected = false;
-  }
-
-  connect() {
-    this.socket = io(this.env.apiUrl);
-    this.connected = true;
-    this.newUser(sessionStorage.getItem('username'));
   }
 }

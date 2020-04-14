@@ -42,7 +42,6 @@ export class HandComponent implements OnInit {
   calledScale(event) {
     event.preventDefault();
     this.socketsService.emit('calledScale', this.scaleForm.get('scale').value);
-    // this.socketsService.emit('calledScale', ['H7', 'C7', 'S7', 'D7']);
     this.cardsToCheckboxes = false;
   }
 
