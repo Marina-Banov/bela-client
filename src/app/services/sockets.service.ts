@@ -80,7 +80,7 @@ export class SocketsService {
 
   private setEvents(): void {
     this.socket.on('hand', (data: any) => {
-      if (!this.dialogRef) {
+      if (!this.dialogRef && data.hand) {
         this.dialogRef = this.dialog.open(WaitingComponent, { disableClose: true });
       }
       if (data.username === this.username) {

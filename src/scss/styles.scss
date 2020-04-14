@@ -22,6 +22,12 @@ body {
   align-items: center;
 }
 
+.flex_space_evenly {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 .flex_column_space_between {
   display: flex;
   justify-content: space-between;
@@ -70,8 +76,8 @@ table {
   }
 }
 
-app-no-hand, app-end-screen {
-  .flex_center_center {
+app-no-hand, app-end-screen, app-login {
+  .flex_center_center, .flex_space_evenly {
     min-height: 100vh;
     background: radial-gradient(white, $bela-light-green);
   }
