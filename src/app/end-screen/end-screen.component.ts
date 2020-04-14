@@ -9,7 +9,7 @@ import { SocketsService } from '../services/sockets.service';
 })
 export class EndScreenComponent implements OnInit {
 
-  private win: string;
+  public win: string;
   private readonly username: string;
 
   constructor(protected socketsService: SocketsService,
