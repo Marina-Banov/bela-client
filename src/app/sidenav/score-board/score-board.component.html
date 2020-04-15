@@ -1,0 +1,14 @@
+<table class="p_center">
+  <thead><tr>
+    <th>A</th>
+    <th>B</th>
+  </tr></thead>
+  <tbody><tr *ngFor="let p of points.games">
+    <td>{{ p.A }}</td>
+    <td>{{ p.B }}</td>
+  </tr></tbody>
+  <tfoot><tr>
+    <td>{{ points.total.A }}</td>
+    <td>{{ points.total.B }}</td>
+  </tr></tfoot>
+</table>

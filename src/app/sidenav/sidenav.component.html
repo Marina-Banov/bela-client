@@ -1,0 +1,17 @@
+<div class="sidenav-item">
+  <h3>Adut</h3>
+  <div *ngIf="trump">
+    <img src="{{'assets/' + trump.trump + '.png'}}" alt="{{ trump.trump }}">
+    <p>{{ trump.username }}</p>
+  </div>
+</div>
+
+<div class="sidenav-item">
+  <h3>Bodovi</h3>
+  <app-score-board *ngIf="teams" [points]="points"></app-score-board>
+</div>
+
+<div class="sidenav-item">
+  <h3>Timovi</h3>
+  <app-team-board *ngIf="teams" [teams]="teams"></app-team-board>
+</div>

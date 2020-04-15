@@ -1,0 +1,35 @@
+@import "../../scss/variables";
+
+mat-sidenav-container, .flex_column_space_between, app-sidenav {
+  min-height: 100vh;
+}
+
+app-sidenav {
+  min-width: 220px;
+}
+
+button {
+  position: absolute;
+  margin: 20px;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  color: $bela-dark-gray;
+  background-color: #eee;
+  transform-origin: center;
+  border: none;
+
+  &:hover, &:focus {
+    outline: none;
+    transform: scale(1.15);
+  }
+}
+
+app-table {
+  display: block;
+  margin: 40px auto 0;
+  width: 60vw;
+  height: 400px;
+}

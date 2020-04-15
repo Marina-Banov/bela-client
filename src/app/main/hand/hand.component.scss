@@ -1,0 +1,67 @@
+@import "../../../scss/variables";
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: inline-block;
+    opacity: 0.8;
+  }
+}
+
+img {
+  height: 200px;
+  margin: 5px;
+}
+
+form {
+  input {
+    display: none
+  }
+
+  label {
+    display: inline-block;
+    cursor: pointer;
+
+    img {
+      border-radius: 10px;
+      transition: 50ms;
+    }
+  }
+
+  input:checked ~ img {
+    transform: scale(1.05);
+    box-shadow: 0 0 3px 5px $bela-yellow;
+  }
+}
+
+.flex_center_center {
+  h3 {
+    display: inline;
+  }
+
+  .green_button, .orange_button {
+    width: 50px;
+    margin: 5px;
+  }
+
+  .green_button {
+    margin-left: 30px;
+  }
+}
+
+p {
+  margin-top: 0;
+  font-size: 13px;
+  font-weight: bold;
+  color: $bela-dark-gray;
+}
+
+.play_card_button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}

@@ -1,0 +1,103 @@
+@import "../../../scss/variables";
+
+.container {
+  position: relative;
+  height: 100%;
+  background: $bela-light-green;
+}
+
+.username {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background: #ddd;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: $bela-light-green;
+
+  &:nth-of-type(1) {
+    left: 50%;
+    top: 100%;
+  }
+  &:nth-of-type(2) {
+    left: 100%;
+    top: 50%;
+  }
+  &:nth-of-type(3) {
+    left: 50%;
+  }
+  &:nth-of-type(4) {
+    top: 50%;
+  }
+}
+
+.turn {
+  box-shadow: 0 0 3px 5px $bela-yellow;
+}
+
+.cards {
+  position: absolute;
+  margin: 15px 0;
+  height: 45%;
+
+  &.c0 {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.c1 {
+    right: 50%;
+    top: 50%;
+    transform: translate(200%, -50%);
+  }
+
+  &.c2 {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.c3 {
+    left: 50%;
+    top: 50%;
+    transform: translate(-200%, -50%);
+  }
+
+  img {
+    height: 100%;
+  }
+}
+
+.scales {
+  position: absolute;
+  margin: 10px;
+  border-radius: 4px;
+  padding: 15px;
+  background: $bela-light-orange;
+  box-shadow: 0 0 4px 2px $bela-orange;
+
+  &.s0 {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(50%);
+  }
+
+  &.s1 {
+    right: 0;
+    top: 50%;
+    transform: translateY(-200%);
+  }
+
+  &.s2 {
+    top: 0;
+    right: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.s3 {
+    left: 0;
+    top: 50%;
+    transform: translateY(50%);
+  }
+}

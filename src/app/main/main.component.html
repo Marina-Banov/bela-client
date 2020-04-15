@@ -1,0 +1,33 @@
+<div *ngIf="!showHand" class="spinner"></div>
+
+<app-no-hand *ngIf="showHand && hand === null"></app-no-hand>
+
+<mat-sidenav-container *ngIf="showHand && hand !== null">
+  <mat-sidenav #sidenav mode="side" opened>
+    <app-sidenav class="flex_column_space_between"
+                 [trump]="socketsService.trump"
+                 [points]="socketsService.points"
+                 [teams]="socketsService.teams">
+    </app-sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <button (click)="sidenav.toggle()">
+      <google-icon name="more_vert"></google-icon>
+    </button>
+
+    <div class="flex_column_space_between">
+      <app-table [orderedUsernames]="orderedUsernames"
+                 [turn]="socketsService.turn"
+                 [scales]="socketsService.scales"
+                 [playedCards]="socketsService.playedCards">
+      </app-table>
+
+      <app-hand class="p_center"
+                [hand]="hand"
+                [display8]="display8"
+                [cardsToButtons]="cardsToButtons">
+      </app-hand>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

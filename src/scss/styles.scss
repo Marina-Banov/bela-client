@@ -1,0 +1,105 @@
+@import "variables";
+@import "mixins";
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+* {
+  font-family: Verdana, sans-serif;
+  box-sizing: border-box;
+}
+
+.p_center {
+  text-align: center;
+}
+
+.flex_center_center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex_space_evenly {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.flex_column_space_between {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+h2, h3 {
+  color: $bela-green;
+  text-transform: uppercase;
+}
+
+button {
+  cursor: pointer;
+}
+
+.green_button {
+  @include action_buttons($bela-green);
+}
+
+.orange_button {
+  @include action_buttons($bela-orange);
+}
+
+table {
+  border-spacing: 0;
+  margin-top: 10px;
+
+  thead th {
+    border-bottom: 2px solid $bela-orange;
+  }
+
+  tfoot td {
+    border-top: 2px solid $bela-orange;
+    background: $bela-light-orange;
+  }
+
+  tr {
+    th, td {
+      padding: 5px;
+      width: 85px;
+
+      &:first-of-type {
+        border-right: 1px solid $bela-orange;
+      }
+    }
+  }
+}
+
+app-no-hand, app-end-screen, app-login {
+  .flex_center_center, .flex_space_evenly {
+    min-height: 100vh;
+    background: radial-gradient(white, $bela-light-green);
+  }
+
+  h2 {
+    font-size: 4em;
+    padding-bottom: .5em;
+    border-bottom: 3px solid $bela-green;
+  }
+}
+
+.spinner {
+  border-radius: 50%;
+  width: 7vw;
+  height: 7vw;
+  margin: 40vh auto auto;
+  border: 1vw solid $bela-light-green;
+  border-top-color: $bela-green;
+  animation: load 1.1s infinite linear;
+}
+
+@keyframes load {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

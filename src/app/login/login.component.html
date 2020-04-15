@@ -1,0 +1,21 @@
+<div class="flex_space_evenly">
+  <div>
+    <h2>Dobrodošli</h2>
+    Ovo je jedan belot room za 4 igrača.
+  </div>
+  <div class="p_center">
+    <h3>Prijava</h3>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="form-group">
+        <input type="text" id="username" formControlName="username" pattern="^[^<>]+$" required/>
+        <label for="username">Korisničko ime</label>
+        <div *ngIf="submitted && loginForm.controls.username.errors" class="invalid-feedback">
+          <p *ngIf="loginForm.controls.username.errors.required">Obavezno polje</p>
+          <p *ngIf="loginForm.controls.username.errors.pattern">Molimo odaberite drugo korisničko ime</p>
+        </div>
+      </div>
+      <button class="green_button" type="submit">Prijava</button>
+    </form>
+  </div>
+</div>
