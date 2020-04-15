@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 })
 export class TrumpsComponent implements OnInit {
 
-  private trumps = ['S', 'C', 'D', 'H'];
+  public trumps = ['S', 'C', 'D', 'H'];
 
   constructor(@Inject(MAT_DIALOG_DATA) public dealer: boolean) { }
 

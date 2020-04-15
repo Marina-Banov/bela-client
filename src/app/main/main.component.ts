@@ -14,7 +14,7 @@ export class MainComponent implements OnInit {
   display8: boolean;
   cardsToButtons = false;
 
-  constructor(protected socketsService: SocketsService) { }
+  constructor(public socketsService: SocketsService) { }
 
   ngOnInit() {
     if (!this.socketsService.connected) {

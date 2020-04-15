@@ -19,7 +19,7 @@ export class HandComponent implements OnInit {
     callBela: false
   };
 
-  constructor(protected socketsService: SocketsService,
+  constructor(public socketsService: SocketsService,
               protected formBuilder: FormBuilder) {
     this.scaleForm = this.formBuilder.group({
       scale: new FormArray([])

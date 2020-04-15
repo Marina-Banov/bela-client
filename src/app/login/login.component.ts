@@ -8,8 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  private loginForm: FormGroup;
-  private submitted = false;
+
+  public loginForm: FormGroup;
+  public submitted = false;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router) {
