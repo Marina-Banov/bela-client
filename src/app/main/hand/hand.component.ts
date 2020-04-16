@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SocketsService } from '../../services/sockets.service';
+import { SocketsService } from '../../sockets.service';
 
 @Component({
   selector: 'app-hand',

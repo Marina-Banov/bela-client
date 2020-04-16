@@ -21,7 +21,7 @@ import { TeamBoardComponent } from './sidenav/team-board/team-board.component';
 import { NotificationComponent } from './dialogs/notification/notification.component';
 import { EndScreenComponent } from './end-screen/end-screen.component';
 
-import { AuthGuard } from './services/auth.guard';
+import { AuthGuard } from './auth.guard';
 import { EnvService } from '../environments/env.service';
 
 @NgModule({
