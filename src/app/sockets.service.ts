@@ -188,7 +188,7 @@ export class SocketsService {
     });
 
     this.socket.on('endMatch', (winningTeam: string) => {
-      this.socket.emit('userLeaves', this.username);
+      this.emit('userLeaves', this.username);
       this.restart();
       this.router.navigate(['/end-screen', { win: winningTeam }]);
     });
