@@ -1,11 +1,11 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { WaitingComponent } from '../dialogs/waiting/waiting.component';
-import { TrumpsComponent } from '../dialogs/trumps/trumps.component';
-import { NotificationComponent } from '../dialogs/notification/notification.component';
-import { ScalesComponent } from '../dialogs/scales/scales.component';
-import { EnvService } from '../../environments/env.service';
+import { WaitingComponent } from './dialogs/waiting/waiting.component';
+import { TrumpsComponent } from './dialogs/trumps/trumps.component';
+import { NotificationComponent } from './dialogs/notification/notification.component';
+import { ScalesComponent } from './dialogs/scales/scales.component';
+import { EnvService } from '../environments/env.service';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -128,7 +128,7 @@ export class SocketsService {
         this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: 'BELA!' });
         setTimeout( () => { this.dialogRef.close(); }, 1000);
       } else if (!this.scales.find( x => x.username === data.username)) {
-        const points = data.points ? data.points + '!' : 'Dalje!';
+        const points = data.points ? data.points : 'Dalje!';
         this.scales.push({ username: data.username, points });
       }
     });
@@ -151,13 +151,20 @@ export class SocketsService {
       if (this.scales.length > 0) {
         setTimeout(() => {
           this.scales = [];
-        }, 4000);
+        }, 1000);
       }
     });
 
     this.socket.on('playCard', (username: string) => {
       this.turn = username;
       this.playCardEvent.emit(username === this.username);
+    });
+
+    this.socket.on('cardNotAllowed', (username: string) => {
+      if (this.username === username) {
+        this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: 'REKA SAN NE MOŽE!' });
+        setTimeout( () => { this.dialogRef.close(); }, 1000);
+      }
     });
 
     this.socket.on('acceptCard', (data: any) => {
@@ -181,7 +188,7 @@ export class SocketsService {
     });
 
     this.socket.on('endMatch', (winningTeam: string) => {
-      this.socket.emit('userLeaves', this.username);
+      this.emit('userLeaves', this.username);
       this.restart();
       this.router.navigate(['/end-screen', { win: winningTeam }]);
     });

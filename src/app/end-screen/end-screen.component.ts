@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SocketsService } from '../services/sockets.service';
+import { SocketsService } from '../sockets.service';
 
 @Component({
   selector: 'app-end-screen',
