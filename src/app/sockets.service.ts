@@ -144,6 +144,7 @@ export class SocketsService {
     this.socket.on('matchPoints', (data: any) => {
       this.points = data;
       this.playCardEvent.emit(false);
+      this.trump = null;
     });
 
     this.socket.on('gamePoints', (data: any) => {
