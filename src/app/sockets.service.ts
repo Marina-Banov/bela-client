@@ -80,15 +80,22 @@ export class SocketsService {
 
   private setEvents(): void {
     this.socket.on('hand', (data: any) => {
-      if (!this.dialogRef && data.hand) {
-        this.dialogRef = this.dialog.open(WaitingComponent, { disableClose: true });
-      }
       if (data.username === this.username) {
         this.handEvent.emit({ hand: data.hand, display8: data.display8 });
       }
     });
 
     this.socket.on('updateUsers', (data: any) => {
+      if (!this.dialogRef) {
+        this.dialogRef = this.dialog.open(WaitingComponent, { disableClose: true, data: data.usernames.length });
+      } else {
+        this.dialogRef.componentInstance.data = data.usernames.length;
+      }
+
+      if (data.usernames.length !== 4) {
+        return;
+      }
+
       let index = data.usernames.indexOf(data.usernames.find(x => x === this.username));
       const orderedUsernames = [];
       for (let i = 0; i < 4; i++) {
