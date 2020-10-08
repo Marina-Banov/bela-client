@@ -44,11 +44,11 @@ button {
 }
 
 .green_button {
-  @include action_buttons($bela-green);
+  @include action_buttons($bela-green, $bela-dark-green);
 }
 
 .orange_button {
-  @include action_buttons($bela-orange);
+  @include action_buttons($bela-orange, $bela-dark-orange);
 }
 
 table {

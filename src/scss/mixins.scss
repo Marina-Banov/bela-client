@@ -1,4 +1,4 @@
-@mixin action_buttons($color) {
+@mixin action_buttons($color, $highlight) {
   color: white;
   margin-top: 26px;
   height: 40px;
@@ -13,8 +13,7 @@
 
   &:hover, &:focus {
     outline: none;
-    background-color: white;
-    color: $color;
-    border: 1px solid $color;
+    background-color: $highlight;
+    border: 1px solid $highlight;
   }
 }

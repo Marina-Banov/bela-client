@@ -39,9 +39,13 @@ export class HandComponent implements OnInit {
     });
   }
 
-  calledScale(event) {
+  calledScale(event, shouldCall) {
     event.preventDefault();
-    this.socketsService.emit('calledScale', this.scaleForm.get('scale').value);
+    if (shouldCall) {
+      this.socketsService.emit('calledScale', this.scaleForm.get('scale').value);
+    } else {
+      this.socketsService.emit('calledScale', []);
+    }
     this.cardsToCheckboxes = false;
   }
 

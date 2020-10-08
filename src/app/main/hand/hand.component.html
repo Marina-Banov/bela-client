@@ -9,10 +9,9 @@
 <form [formGroup]="scaleForm" *ngIf="cardsToCheckboxes">
   <div class="flex_center_center">
     <h3>Imaš li zvanja?</h3>
-    <button class="green_button" (click)="calledScale($event)">YAS</button>
-    <button class="orange_button" (click)="calledScale($event)">NAH</button>
+    <button class="green_button" (click)="calledScale($event, true)">YAS</button>
+    <button class="orange_button" (click)="calledScale($event, false)">NAH</button>
   </div>
-  <p>Svako zvanje prijaviti odvojeno, počevši od onoga koje nosi najviše bodova</p>
 
   <label *ngFor="let card of hand">
     <input type="checkbox" [value]="card" (change)="onCheckChange($event)">

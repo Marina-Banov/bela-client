@@ -160,7 +160,7 @@ export class SocketsService {
       this.playCardEvent.emit(username === this.username);
     });
 
-    this.socket.on('cardNotAllowed', (username: string) => {
+    this.socket.on('moveNotAllowed', (username: string) => {
       if (this.username === username) {
         this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: 'REKA SAN NE MOŽE!' });
         setTimeout( () => { this.dialogRef.close(); }, 1000);
