@@ -10,7 +10,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NoHandComponent } from './no-hand/no-hand.component';
 import { MainComponent } from './main/main.component';
-import { TableComponent } from './main/table/table.component';
+import { MainThreeComponent } from './main/main-three/main-three.component';
+import { MainFourComponent } from './main/main-four/main-four.component';
 import { HandComponent } from './main/hand/hand.component';
 import { TrumpsComponent } from './dialogs/trumps/trumps.component';
 import { ScalesComponent } from './dialogs/scales/scales.component';
@@ -20,6 +21,7 @@ import { ScoreBoardComponent } from './sidenav/score-board/score-board.component
 import { TeamBoardComponent } from './sidenav/team-board/team-board.component';
 import { NotificationComponent } from './dialogs/notification/notification.component';
 import { EndScreenComponent } from './end-screen/end-screen.component';
+import { LoadingComponent } from './loading/loading.component';
 
 import { AuthGuard } from './auth.guard';
 import { EnvService } from '../environments/env.service';
@@ -39,7 +41,8 @@ import { EnvService } from '../environments/env.service';
     LoginComponent,
     NoHandComponent,
     MainComponent,
-    TableComponent,
+    MainThreeComponent,
+    MainFourComponent,
     HandComponent,
     TrumpsComponent,
     ScalesComponent,
@@ -48,7 +51,8 @@ import { EnvService } from '../environments/env.service';
     ScoreBoardComponent,
     TeamBoardComponent,
     NotificationComponent,
-    EndScreenComponent
+    EndScreenComponent,
+    LoadingComponent
   ],
   entryComponents: [
     WaitingComponent,

@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  selector: 'app-main-four',
+  templateUrl: './main-four.component.html',
+  styleUrls: ['./main-four.component.scss']
 })
-export class TableComponent implements OnInit {
+export class MainFourComponent implements OnInit {
 
   @Input() orderedUsernames: any[];
   @Input() turn: string;
