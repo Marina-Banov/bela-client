@@ -8,7 +8,6 @@ import { GoogleIconModule } from 'google-icon';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { NoHandComponent } from './no-hand/no-hand.component';
 import { MainComponent } from './main/main.component';
 import { MainThreeComponent } from './main/main-three/main-three.component';
 import { MainFourComponent } from './main/main-four/main-four.component';
@@ -39,7 +38,6 @@ import { EnvService } from '../environments/env.service';
   declarations: [
     AppComponent,
     LoginComponent,
-    NoHandComponent,
     MainComponent,
     MainThreeComponent,
     MainFourComponent,

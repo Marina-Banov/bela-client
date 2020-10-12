@@ -1,11 +1,12 @@
 @import "../../scss/variables";
 
 h3 {
-  font-size: 2em;
+  line-height: 40px;
 }
 
 .form-group {
   position: relative;
+  margin: 15px 15px 30px;
 }
 
 label {
@@ -22,7 +23,7 @@ label {
 input {
   background-color: white;
   height: 56px;
-  width: 100%;
+  width: 235px;
   padding-top: 25px;
   font-size: 16px;
   text-indent: 12px;
@@ -43,9 +44,26 @@ input {
 
 .invalid-feedback p {
   font-size: 12px;
-  margin: 10px 0 0;
+  position: absolute;
+  margin: 5px 0 0;
+  color: $bela-dark-orange;
 }
 
-.green_button {
-  float: right;
+.room_btn {
+  background: transparent;
+  border: none;
+  margin-bottom: 10px;
+
+  img {
+    opacity: 0.7;
+    width: 35px;
+    height: 35px;
+    margin: 5px;
+    transition: all 200ms;
+  }
+
+  &:hover img {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }

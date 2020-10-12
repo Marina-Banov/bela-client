@@ -7,6 +7,7 @@ import { NotificationComponent } from './dialogs/notification/notification.compo
 import { ScalesComponent } from './dialogs/scales/scales.component';
 import { EnvService } from '../environments/env.service';
 import { Router } from '@angular/router';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,9 @@ export class SocketsService {
 
   private socket: any;
   private username: string;
+  private roomId: string;
+  private roomCapacity: number;
+  private hand: any[];
   private dialogRef: MatDialogRef<any>;
 
   public handEvent = new EventEmitter<any>();
@@ -32,16 +36,28 @@ export class SocketsService {
   public playedCards: string[];
 
   constructor(private env: EnvService,
-              protected dialog: MatDialog,
-              protected router: Router) {
+              private dialog: MatDialog,
+              private router: Router,
+              private loadingService: LoadingService) {
     this.restart();
-    this.connect();
   }
 
   public connect(): void {
+    this.loadingService.startLoading();
+    this.username = sessionStorage.getItem('username');
+    this.roomId = sessionStorage.getItem('roomId');
+    this.roomCapacity = parseInt(sessionStorage.getItem('roomCapacity'), 10);
+    this.hand = JSON.parse(sessionStorage.getItem('hand'));
     this.socket = io(this.env.apiUrl);
-    this.connected = true;
-    this.newUser(sessionStorage.getItem('username'));
+    this.socket.emit('joinRoom', {
+      username : this.username,
+      roomId : this.roomId,
+      roomCapacity : this.roomCapacity,
+      hand : this.hand
+    });
+    this.setEvents();
+    // this.connected = true;
+    // this.newUser(sessionStorage.getItem('username'));
   }
 
   public disconnect(username: string): void {
@@ -79,7 +95,18 @@ export class SocketsService {
   }
 
   private setEvents(): void {
+    this.socket.on('noRoom', () => {
+      sessionStorage.removeItem('roomId');
+      sessionStorage.removeItem('roomCapacity');
+      this.socket.disconnect();
+      setTimeout(() => {
+        this.loadingService.stopLoading();
+        this.router.navigate(['/login'], { state: { data: 'Room full' } }).then();
+      }, 2000);
+    });
+
     this.socket.on('hand', (data: any) => {
+      this.loadingService.stopLoading();
       if (data.username === this.username) {
         this.handEvent.emit({ hand: data.hand, display8: data.display8 });
       }

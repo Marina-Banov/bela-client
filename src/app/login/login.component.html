@@ -1,21 +1,41 @@
-<div class="flex_space_evenly">
-  <div>
-    <h2>Dobrodošli</h2>
-    Ovo je jedan belot room za 4 igrača.
-  </div>
-  <div class="p_center">
-    <h3>Prijava</h3>
+<section class="flex_center_center flex_column">
+  <h2>BELA</h2>
 
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <form [formGroup]="loginForm" class="flex_center_center flex_column">
+    <div class="flex_center_center" *ngIf="!fullRoom">
+      Bok
       <div class="form-group">
         <input type="text" id="username" formControlName="username" pattern="^[^<>]+$" required/>
-        <label for="username">Korisničko ime</label>
+        <label for="username">Ime</label>
         <div *ngIf="submitted && loginForm.controls.username.errors" class="invalid-feedback">
           <p *ngIf="loginForm.controls.username.errors.required">Obavezno polje</p>
           <p *ngIf="loginForm.controls.username.errors.pattern">Molimo odaberite drugo korisničko ime</p>
         </div>
       </div>
-      <button class="green_button" type="submit">Prijava</button>
-    </form>
-  </div>
-</div>
+    </div>
+
+    <p *ngIf="!fullRoom">Na kojem kontinentu se karta?</p>
+
+    <h3 class="p_center" *ngIf="fullRoom">
+      Nažalost, ova soba je popunjena!<br>
+      Možda neka druga?
+    </h3>
+
+    <div class="form-group">
+      <input type="text" id="room" formControlName="room" pattern="^[^<>]+$" required/>
+      <label for="room">Ime sobe</label>
+      <div *ngIf="submitted && loginForm.controls.room.errors" class="invalid-feedback">
+        <p *ngIf="loginForm.controls.room.errors.required">Obavezno polje</p>
+        <p *ngIf="loginForm.controls.room.errors.pattern">Molimo odaberite drugo ime sobe</p>
+      </div>
+    </div>
+  </form>
+
+  <button class="room_btn" (click)="getRoom('3')">
+    <img *ngFor="let i of [0,1,2]" src="/assets/virus.svg" alt="">
+  </button>
+
+  <button class="room_btn" (click)="getRoom('4')">
+    <img *ngFor="let i of [0,1,2,3]" src="/assets/virus.svg" alt="">
+  </button>
+</section>

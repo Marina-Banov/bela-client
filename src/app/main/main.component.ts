@@ -13,13 +13,13 @@ export class MainComponent implements OnInit {
   hand: string[] = [];
   display8: boolean;
   cardsToButtons = false;
+  roomCapacity: number;
 
   constructor(public socketsService: SocketsService) { }
 
   ngOnInit() {
-    if (!this.socketsService.connected) {
-      this.socketsService.connect();
-    }
+    this.roomCapacity = parseInt(sessionStorage.getItem('roomCapacity'), 10);
+    this.socketsService.connect();
 
     this.socketsService.handEvent.subscribe( data => {
       this.showHand = true;

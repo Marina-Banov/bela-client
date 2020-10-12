@@ -1,8 +1,4 @@
-<div *ngIf="!showHand" class="spinner"></div>
-
-<app-no-hand *ngIf="showHand && hand === null"></app-no-hand>
-
-<mat-sidenav-container *ngIf="showHand && hand !== null">
+<mat-sidenav-container>
   <mat-sidenav #sidenav mode="side" opened>
     <app-sidenav class="flex_column_space_between"
                  [trump]="socketsService.trump"
@@ -17,11 +13,14 @@
     </button>
 
     <div class="flex_column_space_between">
-      <app-main-four [orderedUsernames]="orderedUsernames"
+      <app-main-four *ngIf="roomCapacity === 4"
+                     [orderedUsernames]="orderedUsernames"
                      [turn]="socketsService.turn"
                      [scales]="socketsService.scales"
                      [playedCards]="socketsService.playedCards">
       </app-main-four>
+
+      <app-main-three *ngIf="roomCapacity === 3"></app-main-three>
 
       <app-hand class="p_center"
                 [hand]="hand"

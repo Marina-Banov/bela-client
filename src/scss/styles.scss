@@ -34,6 +34,11 @@ body {
   flex-direction: column;
 }
 
+.flex_column {
+  display: flex;
+  flex-direction: column;
+}
+
 h2, h3 {
   color: $bela-green;
   text-transform: uppercase;
@@ -76,15 +81,16 @@ table {
   }
 }
 
-app-no-hand, app-end-screen, app-login {
-  .flex_center_center, .flex_space_evenly {
+app-end-screen, app-login {
+  section {
     min-height: 100vh;
     background: radial-gradient(white, $bela-light-green);
   }
 
   h2 {
     font-size: 4em;
-    padding-bottom: .5em;
+    margin: 0.5em 0;
+    padding-bottom: .15em;
     border-bottom: 3px solid $bela-green;
   }
 }
