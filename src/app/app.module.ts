@@ -14,7 +14,7 @@ import { MainFourComponent } from './main/main-four/main-four.component';
 import { HandComponent } from './main/hand/hand.component';
 import { TrumpsComponent } from './dialogs/trumps/trumps.component';
 import { ScalesComponent } from './dialogs/scales/scales.component';
-import { WaitingComponent } from './dialogs/waiting/waiting.component';
+import { ArrangeUsersComponent } from './dialogs/arrange-users/arrange-users.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ScoreBoardComponent } from './sidenav/score-board/score-board.component';
 import { TeamBoardComponent } from './sidenav/team-board/team-board.component';
@@ -44,7 +44,7 @@ import { EnvService } from '../environments/env.service';
     HandComponent,
     TrumpsComponent,
     ScalesComponent,
-    WaitingComponent,
+    ArrangeUsersComponent,
     SidenavComponent,
     ScoreBoardComponent,
     TeamBoardComponent,
@@ -53,7 +53,7 @@ import { EnvService } from '../environments/env.service';
     LoadingComponent
   ],
   entryComponents: [
-    WaitingComponent,
+    ArrangeUsersComponent,
     TrumpsComponent,
     ScalesComponent,
     NotificationComponent

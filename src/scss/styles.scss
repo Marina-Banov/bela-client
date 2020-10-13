@@ -28,10 +28,9 @@ body {
   align-items: center;
 }
 
-.flex_column_space_between {
+.flex_space_between {
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
 }
 
 .flex_column {
@@ -54,6 +53,18 @@ button {
 
 .orange_button {
   @include action_buttons($bela-orange, $bela-dark-orange);
+}
+
+.grey_button {
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  color: $bela-dark-gray;
+  background-color: #eee;
+  transform-origin: center;
+  border: none;
 }
 
 table {

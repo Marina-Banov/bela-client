@@ -1,0 +1,32 @@
+.button_container {
+  width: 100px;
+  height: 40px;
+  position: relative;
+}
+
+.flex_space_between {
+  align-items: center;
+}
+
+.grey_button {
+  margin: 5px;
+  height: 30px;
+}
+
+.button_right {
+  position: absolute;
+  right: 0;
+}
+
+.green_button {
+  width: 60px;
+}
+
+h3 {
+  margin: 0 0 26px;
+}
+
+p {
+  width: calc(100% - 110px);
+  margin: 0;
+}

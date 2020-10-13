@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { WaitingComponent } from './dialogs/waiting/waiting.component';
+import { ArrangeUsersComponent } from './dialogs/arrange-users/arrange-users.component';
 import { TrumpsComponent } from './dialogs/trumps/trumps.component';
 import { NotificationComponent } from './dialogs/notification/notification.component';
 import { ScalesComponent } from './dialogs/scales/scales.component';
@@ -18,12 +18,13 @@ export class SocketsService {
   private username: string;
   private roomId: string;
   private roomCapacity: number;
-  private hand: any[];
+  private hand: any;
   private dialogRef: MatDialogRef<any>;
 
   public handEvent = new EventEmitter<any>();
-  public updateUsernamesEvent = new EventEmitter<string[]>();
+  public updateUsersEvent = new EventEmitter<string[]>();
   public callScaleEvent = new EventEmitter<any>();
+  public discardTwo = new EventEmitter<any>();
   public playCardEvent = new EventEmitter<boolean>();
   public callBelaEvent = new EventEmitter<string>();
 
@@ -64,7 +65,7 @@ export class SocketsService {
     sessionStorage.removeItem('username');
     this.emit('killedMatch', username);
     this.socket.disconnect();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then();
     this.dialogRef.close();
     this.connected = false;
   }
@@ -87,13 +88,6 @@ export class SocketsService {
     this.socket.emit(eventName, data);
   }
 
-  public newUser(username: string): void {
-    this.username = username;
-    this.emit('newUser', username);
-    this.dialogRef = undefined;
-    this.setEvents();
-  }
-
   private setEvents(): void {
     this.socket.on('noRoom', () => {
       sessionStorage.removeItem('roomId');
@@ -105,35 +99,38 @@ export class SocketsService {
       }, 2000);
     });
 
+    this.socket.on('message', (data: string) => {
+      if (!this.dialogRef) {
+        this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: { message: data, dotted: true } });
+      } else {
+        this.dialogRef.componentInstance.data = { message: data, dotted: true };
+      }
+    });
+
+    this.socket.on('arrangeUsers', (data: string[]) => {
+      this.dialogRef.close();
+      this.dialogRef = this.dialog.open(ArrangeUsersComponent, { disableClose: true, data });
+      this.dialogRef.afterClosed().subscribe(d => this.emit('reorderPlayers', d));
+    });
+
     this.socket.on('hand', (data: any) => {
       this.loadingService.stopLoading();
-      if (data.username === this.username) {
-        this.handEvent.emit({ hand: data.hand, display8: data.display8 });
+      sessionStorage.setItem('hand', JSON.stringify(data.hand));
+      this.handEvent.emit(data);
+      if (data.hand.length === 12) {
+        this.discardTwo.emit();
       }
     });
 
     this.socket.on('updateUsers', (data: any) => {
-      if (!this.dialogRef) {
-        this.dialogRef = this.dialog.open(WaitingComponent, { disableClose: true, data: data.usernames.length });
-      } else {
-        this.dialogRef.componentInstance.data = data.usernames.length;
+      this.dialogRef.close();
+      let index = data.indexOf(data.find(x => x === this.username));
+      const orderedUsers = [];
+      for (let i = 0; i < this.roomCapacity; i++) {
+        orderedUsers.push(data[index]);
+        index = (index + 1) % this.roomCapacity;
       }
-
-      if (data.usernames.length !== 4) {
-        return;
-      }
-
-      let index = data.usernames.indexOf(data.usernames.find(x => x === this.username));
-      const orderedUsernames = [];
-      for (let i = 0; i < 4; i++) {
-        orderedUsernames.push(data.usernames[index]);
-        index = (index + 1) % 4;
-      }
-      setTimeout( () => {
-        this.dialogRef.close();
-        this.updateUsernamesEvent.emit(orderedUsernames);
-        this.teams = data.teams;
-      }, 1000);
+      this.updateUsersEvent.emit(orderedUsers);
     });
 
     this.socket.on('callTrump', (data: any) => {
@@ -159,9 +156,9 @@ export class SocketsService {
 
     this.socket.on('announceScale', (data: any) => {
       if (data.bela) {
-        this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: 'BELA!' });
+        this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: { message: 'BELA!', dotted: false } });
         setTimeout( () => { this.dialogRef.close(); }, 1000);
-      } else if (!this.scales.find( x => x.username === data.username)) {
+      } else {
         const points = data.points ? data.points : 'Dalje!';
         this.scales.push({ username: data.username, points });
       }
@@ -195,11 +192,15 @@ export class SocketsService {
       this.playCardEvent.emit(username === this.username);
     });
 
-    this.socket.on('moveNotAllowed', (username: string) => {
-      if (this.username === username) {
-        this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: 'REKA SAN NE MOŽE!' });
-        setTimeout( () => { this.dialogRef.close(); }, 1000);
-      }
+    this.socket.on('moveNotAllowed', () => {
+      this.dialogRef = this.dialog.open(NotificationComponent, {
+        disableClose: true,
+        data: {
+          message: 'REKA SAN NE MOŽE!',
+          dotted: false
+        }
+      });
+      setTimeout( () => { this.dialogRef.close(); }, 1000);
     });
 
     this.socket.on('acceptCard', (data: any) => {
@@ -218,20 +219,31 @@ export class SocketsService {
     });
 
     this.socket.on('fail', (team: string) => {
-      this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: 'Team ' + team + ' je pao!' });
+      this.dialogRef = this.dialog.open(NotificationComponent, {
+        disableClose: true,
+        data: {
+          message: 'Tim ' + team + ' je pao!',
+          dotted: false
+        }
+      });
       setTimeout( () => { this.dialogRef.close(); }, 1000);
     });
 
     this.socket.on('endMatch', (winningTeam: string) => {
       this.emit('userLeaves', this.username);
       this.restart();
-      this.router.navigate(['/end-screen', { win: winningTeam }]);
+      this.router.navigate(['/end-screen', { win: winningTeam }]).then();
     });
 
     this.socket.on('killMatch', (username: string) => {
       this.dialogRef.close();
-      const data = username + ' je odustao. Vidimo se neki drugi put!';
-      this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data });
+      this.dialogRef = this.dialog.open(NotificationComponent, {
+        disableClose: true,
+        data: {
+          message: username + ' je odustao. Vidimo se neki drugi put!',
+          dotted: false
+        }
+      });
       setTimeout(() => {
         this.disconnect(this.username);
       }, 4000);

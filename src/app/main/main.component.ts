@@ -11,7 +11,7 @@ export class MainComponent implements OnInit {
   showHand = false;
   orderedUsernames: string[] = [];
   hand: string[] = [];
-  display8: boolean;
+  displayAll: boolean;
   cardsToButtons = false;
   roomCapacity: number;
 
@@ -23,11 +23,11 @@ export class MainComponent implements OnInit {
 
     this.socketsService.handEvent.subscribe( data => {
       this.showHand = true;
-      this.hand = data.hand;
-      this.display8 = data.display8;
+      this.hand = data.hand.map(x => x.sign);
+      this.displayAll = data.displayAll;
     });
 
-    this.socketsService.updateUsernamesEvent.subscribe(data => {
+    this.socketsService.updateUsersEvent.subscribe(data => {
       this.orderedUsernames = data;
     });
 

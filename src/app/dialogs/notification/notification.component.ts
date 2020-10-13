@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 })
 export class NotificationComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public message: any) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
   }

@@ -1,0 +1,23 @@
+<h3 class="p_center">Uredi redoslijed igrača:</h3>
+
+<div *ngFor="let d of data; let i = index" class="flex_space_between">
+  <strong *ngIf="data.length === 4">{{(i % 2) ? 'B' : 'A'}}</strong>
+  <p class="p_center">{{d}}</p>
+
+  <div class="button_container">
+    <button class="grey_button"
+            (click)="reorder(i, -1)"
+            *ngIf="i !== 0">
+      <google-icon name="arrow_drop_up"></google-icon>
+    </button>
+    <button class="grey_button button_right"
+            (click)="reorder(i, 1)"
+            *ngIf="i !== data.length-1">
+      <google-icon name="arrow_drop_down"></google-icon>
+    </button>
+  </div>
+</div>
+
+<div class="p_center">
+  <button [mat-dialog-close]="data" class="green_button">OK</button>
+</div>

@@ -1,6 +1,6 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="side" opened>
-    <app-sidenav class="flex_column_space_between"
+    <app-sidenav class="flex_column flex_space_between"
                  [trump]="socketsService.trump"
                  [points]="socketsService.points"
                  [teams]="socketsService.teams">
@@ -8,11 +8,11 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <button (click)="sidenav.toggle()">
+    <button class="grey_button" (click)="sidenav.toggle()">
       <google-icon name="more_vert"></google-icon>
     </button>
 
-    <div class="flex_column_space_between">
+    <div class="flex_column flex_space_between">
       <app-main-four *ngIf="roomCapacity === 4"
                      [orderedUsernames]="orderedUsernames"
                      [turn]="socketsService.turn"
@@ -24,7 +24,7 @@
 
       <app-hand class="p_center"
                 [hand]="hand"
-                [display8]="display8"
+                [displayAll]="displayAll"
                 [cardsToButtons]="cardsToButtons">
       </app-hand>
     </div>
