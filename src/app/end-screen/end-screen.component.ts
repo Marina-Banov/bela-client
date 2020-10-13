@@ -23,7 +23,7 @@ export class EndScreenComponent implements OnInit {
   }
 
   restart() {
-    this.socketsService.newUser(this.username);
+    // this.socketsService.newUser(this.username);
     this.router.navigate(['/']);
   }
 

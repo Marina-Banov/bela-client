@@ -20,7 +20,11 @@
                      [playedCards]="socketsService.playedCards">
       </app-main-four>
 
-      <app-main-three *ngIf="roomCapacity === 3"></app-main-three>
+      <app-main-three *ngIf="roomCapacity === 3"
+                      [orderedUsernames]="orderedUsernames"
+                      [turn]="socketsService.turn"
+                      [scales]="socketsService.scales"
+                      [playedCards]="socketsService.playedCards"></app-main-three>
 
       <app-hand class="p_center"
                 [hand]="hand"

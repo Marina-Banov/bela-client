@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-main-three',
@@ -6,6 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-three.component.scss']
 })
 export class MainThreeComponent implements OnInit {
+
+  @Input() orderedUsernames: any[];
+  @Input() turn: string;
+  @Input() scales: any[];
+  @Input() playedCards: any[];
 
   constructor() { }
 
