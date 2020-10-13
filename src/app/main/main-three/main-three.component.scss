@@ -5,7 +5,7 @@ section {
 }
 
 .container {
-  clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+  clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
 }
 
 .username {
@@ -13,15 +13,17 @@ section {
 
   &:nth-of-type(1) {
     left: 50%;
-    top: 95%;
+    top: 100%;
   }
+
   &:nth-of-type(2) {
-    left: 87.5%;
-    top: 27.5%;
+    left: 92.5%;
+    top: 25%;
   }
+
   &:nth-of-type(3) {
-    left: 12.5%;
-    top: 27.5%;
+    left: 7.5%;
+    top: 25%;
   }
 }
 
@@ -46,6 +48,8 @@ section {
 }
 
 .scales {
+  z-index: 2;
+
   &.s0 {
     bottom: 0;
     left: 50%;
@@ -53,14 +57,14 @@ section {
   }
 
   &.s1 {
-    right: 0;
-    top: 50%;
-    transform: translateY(-200%);
+    left: 92.5%;
+    top: 25%;
+    transform: translateY(50%);
   }
 
   &.s2 {
-    top: 0;
-    right: 50%;
-    transform: translateX(-50%);
+    top: 25%;
+    left: 7.5%;
+    transform: translateY(-200%);
   }
 }

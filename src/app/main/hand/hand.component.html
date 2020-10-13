@@ -7,10 +7,19 @@
 </ul>
 
 <form [formGroup]="scaleForm" *ngIf="cardsToCheckboxes">
-  <div class="flex_center_center">
+  <div class="flex_center_center" *ngIf="scale">
     <h3>Imaš li zvanja?</h3>
     <button class="green_button" (click)="calledScale($event, true)">YAS</button>
     <button class="orange_button" (click)="calledScale($event, false)">NAH</button>
+  </div>
+
+  <div class="flex_center_center" *ngIf="!scale">
+    <h3>Odbaci 2 karte</h3>
+    <button class="green_button"
+            [disabled]="scaleForm.get('scale').value.length !== 2"
+            (click)="calledScale($event, true)">
+      OK
+    </button>
   </div>
 
   <label *ngFor="let card of hand">

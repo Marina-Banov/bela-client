@@ -13,6 +13,7 @@ export class HandComponent implements OnInit {
   @Input() displayAll: boolean;
   @Input() cardsToButtons: boolean;
   cardsToCheckboxes = false;
+  scale: boolean;
   scaleForm: FormGroup;
   bela: any = {
     card: '',
@@ -29,6 +30,7 @@ export class HandComponent implements OnInit {
   ngOnInit() {
     this.socketsService.callScaleEvent.subscribe(data => {
       this.cardsToCheckboxes = true;
+      this.scale = true;
       const formArray = this.scaleForm.get('scale') as FormArray;
       formArray.clear();
     });
@@ -37,14 +39,21 @@ export class HandComponent implements OnInit {
       this.bela.callBela = true;
       this.bela.card = data;
     });
+
+    this.socketsService.discardTwo.subscribe(() => {
+      this.cardsToCheckboxes = true;
+      this.scale = false;
+      const formArray = this.scaleForm.get('scale') as FormArray;
+      formArray.clear();
+    });
   }
 
   calledScale(event, shouldCall) {
     event.preventDefault();
-    if (shouldCall) {
-      this.socketsService.emit('calledScale', this.scaleForm.get('scale').value);
+    if (this.scale) {
+      this.socketsService.emit('calledScale', shouldCall ? this.scaleForm.get('scale').value : []);
     } else {
-      this.socketsService.emit('calledScale', []);
+      this.socketsService.emit('discarded', this.scaleForm.get('scale').value);
     }
     this.cardsToCheckboxes = false;
   }

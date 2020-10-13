@@ -18,16 +18,9 @@ app-sidenav {
   }
 }
 
-app-main-four {
+app-main-four, app-main-three {
   display: block;
   margin: 40px auto 0;
   width: 60vw;
   height: 400px;
-}
-
-app-main-three {
-  height: 400px;
-  width: 400px;
-  display: block;
-  margin: 40px auto 0;
 }
