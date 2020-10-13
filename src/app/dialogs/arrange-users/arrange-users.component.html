@@ -8,12 +8,12 @@
     <button class="grey_button"
             (click)="reorder(i, -1)"
             *ngIf="i !== 0">
-      <google-icon name="arrow_drop_up"></google-icon>
+      <mat-icon>arrow_drop_up</mat-icon>
     </button>
     <button class="grey_button button_right"
             (click)="reorder(i, 1)"
             *ngIf="i !== data.length-1">
-      <google-icon name="arrow_drop_down"></google-icon>
+      <mat-icon>arrow_drop_down</mat-icon>
     </button>
   </div>
 </div>

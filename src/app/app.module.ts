@@ -3,8 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatSidenavModule } from '@angular/material';
-import { GoogleIconModule } from 'google-icon';
+import { MatDialogModule, MatIconModule, MatSidenavModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -33,7 +32,7 @@ import { EnvService } from '../environments/env.service';
     ReactiveFormsModule,
     MatDialogModule,
     MatSidenavModule,
-    GoogleIconModule
+    MatIconModule
   ],
   declarations: [
     AppComponent,
@@ -51,12 +50,6 @@ import { EnvService } from '../environments/env.service';
     NotificationComponent,
     EndScreenComponent,
     LoadingComponent
-  ],
-  entryComponents: [
-    ArrangeUsersComponent,
-    TrumpsComponent,
-    ScalesComponent,
-    NotificationComponent
   ],
   providers: [
     AuthGuard,
