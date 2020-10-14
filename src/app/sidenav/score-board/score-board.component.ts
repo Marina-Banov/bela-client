@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SocketService } from '../../socket.service';
 
 @Component({
   selector: 'app-score-board',
@@ -7,11 +8,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ScoreBoardComponent implements OnInit {
 
-  @Input() points: any;
+  users: string[] = [];
 
-  constructor() { }
+  constructor(public socketService: SocketService) { }
 
   ngOnInit() {
+    this.socketService.updateUsersEvent.subscribe(data => {
+      this.users = data.users;
+    });
   }
 
 }

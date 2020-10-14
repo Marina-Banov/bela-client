@@ -1,17 +1,17 @@
 <div class="sidenav-item">
   <h3>Adut</h3>
-  <div *ngIf="trump">
-    <img src="{{'assets/' + trump.trump + '.png'}}" alt="{{ trump.trump }}">
-    <p>{{ trump.username }}</p>
+  <div *ngIf="socketService.trump">
+    <img src="{{'assets/' + socketService.trump.trump + '.png'}}" alt="{{ socketService.trump.trump }}">
+    <p>{{ socketService.trump.username }}</p>
   </div>
 </div>
 
 <div class="sidenav-item">
   <h3>Bodovi</h3>
-  <app-score-board *ngIf="teams" [points]="points"></app-score-board>
+  <app-score-board></app-score-board>
 </div>
 
-<div class="sidenav-item">
+<div class="sidenav-item" *ngIf="socketService.roomCapacity === 4">
   <h3>Timovi</h3>
-  <app-team-board *ngIf="teams" [teams]="teams"></app-team-board>
+  <app-team-board></app-team-board>
 </div>

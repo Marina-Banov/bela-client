@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SocketService } from '../../socket.service';
 
 @Component({
   selector: 'app-main-four',
@@ -7,14 +8,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MainFourComponent implements OnInit {
 
-  @Input() orderedUsernames: any[];
-  @Input() turn: string;
-  @Input() scales: any[];
-  @Input() playedCards: any[];
+  orderedUsernames: any[] = [];
 
-  constructor() { }
+  constructor(public socketService: SocketService) { }
 
   ngOnInit() {
+    this.socketService.updateUsersEvent.subscribe(data => {
+      this.orderedUsernames = data.orderedUsers;
+    });
   }
 
 }

@@ -1,10 +1,6 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="side" opened>
-    <app-sidenav class="flex_column flex_space_between"
-                 [trump]="socketsService.trump"
-                 [points]="socketsService.points"
-                 [teams]="socketsService.teams">
-    </app-sidenav>
+    <app-sidenav class="flex_column flex_space_between"></app-sidenav>
   </mat-sidenav>
 
   <mat-sidenav-content>
@@ -13,24 +9,10 @@
     </button>
 
     <div class="flex_column flex_space_between">
-      <app-main-four *ngIf="roomCapacity === 4"
-                     [orderedUsernames]="orderedUsernames"
-                     [turn]="socketsService.turn"
-                     [scales]="socketsService.scales"
-                     [playedCards]="socketsService.playedCards">
-      </app-main-four>
+      <app-main-four *ngIf="socketService.roomCapacity === 4"></app-main-four>
+      <app-main-three *ngIf="socketService.roomCapacity === 3"></app-main-three>
 
-      <app-main-three *ngIf="roomCapacity === 3"
-                      [orderedUsernames]="orderedUsernames"
-                      [turn]="socketsService.turn"
-                      [scales]="socketsService.scales"
-                      [playedCards]="socketsService.playedCards"></app-main-three>
-
-      <app-hand class="p_center"
-                [hand]="hand"
-                [displayAll]="displayAll"
-                [cardsToButtons]="cardsToButtons">
-      </app-hand>
+      <app-hand class="p_center"></app-hand>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

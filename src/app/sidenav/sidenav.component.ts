@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SocketService } from '../socket.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -7,11 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SidenavComponent implements OnInit {
 
-  @Input() trump: any;
-  @Input() points: any;
-  @Input() teams: any;
-
-  constructor() { }
+  constructor(public socketService: SocketService) { }
 
   ngOnInit() {
   }

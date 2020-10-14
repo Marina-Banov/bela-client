@@ -1,4 +1,4 @@
-<ul *ngIf="(!cardsToButtons && !cardsToCheckboxes) || (socketsService.playedCards.length === 4)">
+<ul *ngIf="(!cardsToButtons && !cardsToCheckboxes) || (socketService.playedCards.length === 4)">
   <li *ngFor="let card of hand; let i = index">
     <img *ngIf="displayAll || i < 6"
          src="{{'assets/' + card + '.png'}}"
@@ -28,7 +28,7 @@
   </label>
 </form>
 
-<div *ngIf="cardsToButtons && socketsService.playedCards.length !== 4">
+<div *ngIf="cardsToButtons && socketService.playedCards.length !== 4">
   <div class="flex_center_center" *ngIf="bela.callBela">
     <h3>Želiš li zvati belu?</h3>
     <button class="green_button" (click)="callBela(true)">YAS</button>

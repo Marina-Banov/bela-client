@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SocketsService } from '../../sockets.service';
+import { SocketService } from '../../socket.service';
 
 @Component({
   selector: 'app-hand',
@@ -9,9 +9,9 @@ import { SocketsService } from '../../sockets.service';
 })
 export class HandComponent implements OnInit {
 
-  @Input() hand: string[];
-  @Input() displayAll: boolean;
-  @Input() cardsToButtons: boolean;
+  hand: string[];
+  displayAll: boolean;
+  cardsToButtons: boolean;
   cardsToCheckboxes = false;
   scale: boolean;
   scaleForm: FormGroup;
@@ -20,7 +20,7 @@ export class HandComponent implements OnInit {
     callBela: false
   };
 
-  constructor(public socketsService: SocketsService,
+  constructor(public socketService: SocketService,
               protected formBuilder: FormBuilder) {
     this.scaleForm = this.formBuilder.group({
       scale: new FormArray([])
@@ -28,19 +28,28 @@ export class HandComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.socketsService.callScaleEvent.subscribe(data => {
+    this.socketService.handEvent.subscribe( data => {
+      this.hand = data.hand.map(x => x.sign);
+      this.displayAll = data.displayAll;
+    });
+
+    this.socketService.playCardEvent.subscribe( data => {
+      this.cardsToButtons = data;
+    });
+
+    this.socketService.callScaleEvent.subscribe(data => {
       this.cardsToCheckboxes = true;
       this.scale = true;
       const formArray = this.scaleForm.get('scale') as FormArray;
       formArray.clear();
     });
 
-    this.socketsService.callBelaEvent.subscribe(data => {
+    this.socketService.callBelaEvent.subscribe(data => {
       this.bela.callBela = true;
       this.bela.card = data;
     });
 
-    this.socketsService.discardTwo.subscribe(() => {
+    this.socketService.discardTwo.subscribe(() => {
       this.cardsToCheckboxes = true;
       this.scale = false;
       const formArray = this.scaleForm.get('scale') as FormArray;
@@ -51,19 +60,19 @@ export class HandComponent implements OnInit {
   calledScale(event, shouldCall) {
     event.preventDefault();
     if (this.scale) {
-      this.socketsService.emit('calledScale', shouldCall ? this.scaleForm.get('scale').value : []);
+      this.socketService.emit('calledScale', shouldCall ? this.scaleForm.get('scale').value : []);
     } else {
-      this.socketsService.emit('discarded', this.scaleForm.get('scale').value);
+      this.socketService.emit('discarded', this.scaleForm.get('scale').value);
     }
     this.cardsToCheckboxes = false;
   }
 
   playCard(card) {
-    this.socketsService.emit('cardPlayed', card);
+    this.socketService.emit('cardPlayed', card);
   }
 
   callBela(called) {
-    this.socketsService.emit('calledBela', { card: this.bela.card, called });
+    this.socketService.emit('calledBela', { card: this.bela.card, called });
     this.bela.callBela = false;
   }
 

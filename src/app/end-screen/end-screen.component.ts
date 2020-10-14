@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SocketsService } from '../sockets.service';
+import { SocketService } from '../socket.service';
 
 @Component({
   selector: 'app-end-screen',
@@ -12,8 +12,8 @@ export class EndScreenComponent implements OnInit {
   public win: string;
   private readonly username: string;
 
-  constructor(protected socketsService: SocketsService,
-              protected router: Router,
+  constructor(private socketService: SocketService,
+              private router: Router,
               private route: ActivatedRoute) {
     this.win = this.route.snapshot.paramMap.get('win');
     this.username = sessionStorage.getItem('username');
@@ -23,11 +23,11 @@ export class EndScreenComponent implements OnInit {
   }
 
   restart() {
-    // this.socketsService.newUser(this.username);
-    this.router.navigate(['/']);
+    // this.socketService.newUser(this.username);
+    this.router.navigate(['/']).then();
   }
 
   destroy() {
-    this.socketsService.disconnect(this.username);
+    this.socketService.disconnect(this.username);
   }
 }

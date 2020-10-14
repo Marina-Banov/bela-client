@@ -1,11 +1,11 @@
 <div class="container">
   <div *ngFor="let i of [0, 1, 2, 3];"
        class="username flex_center_center"
-       [class.turn]="turn === orderedUsernames[i]">
+       [class.turn]="orderedUsernames[i] ? socketService.turn === orderedUsernames[i] : false">
     <span> {{ orderedUsernames ? orderedUsernames[i] : '' }} </span>
   </div>
 
-  <div *ngFor="let s of scales"
+  <div *ngFor="let s of socketService.scales"
        class="scales"
        [class.s0]="s.username === orderedUsernames[0]"
        [class.s1]="s.username === orderedUsernames[1]"
@@ -14,7 +14,7 @@
     {{ s.points }}
   </div>
 
-  <div *ngFor="let c of playedCards"
+  <div *ngFor="let c of socketService.playedCards"
        class="cards"
        [class.c0]="c.username === orderedUsernames[0]"
        [class.c1]="c.username === orderedUsernames[1]"

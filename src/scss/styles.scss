@@ -75,6 +75,11 @@ table {
     border-bottom: 2px solid $bela-orange;
   }
 
+  th, td {
+    border-left: 2px solid $bela-orange;
+    border-right: 2px solid $bela-orange;
+  }
+
   tfoot td {
     border-top: 2px solid $bela-orange;
     background: $bela-light-orange;
@@ -86,7 +91,10 @@ table {
       width: 85px;
 
       &:first-of-type {
-        border-right: 1px solid $bela-orange;
+        border-left: none;
+      }
+      &:last-of-type {
+        border-right: none;
       }
     }
   }

@@ -12,36 +12,33 @@ import { LoadingService } from './loading.service';
 @Injectable({
   providedIn: 'root'
 })
-export class SocketsService {
+export class SocketService {
 
   private socket: any;
   private username: string;
   private roomId: string;
-  private roomCapacity: number;
   private hand: any;
   private dialogRef: MatDialogRef<any>;
 
   public handEvent = new EventEmitter<any>();
-  public updateUsersEvent = new EventEmitter<string[]>();
+  public updateUsersEvent = new EventEmitter<any>();
   public callScaleEvent = new EventEmitter<any>();
   public discardTwo = new EventEmitter<any>();
   public playCardEvent = new EventEmitter<boolean>();
   public callBelaEvent = new EventEmitter<string>();
 
-  public connected: boolean;
-  public trump: any;
-  public teams: any;
-  public points: any;
-  public scales: any[];
-  public turn: string;
-  public playedCards: string[];
+  public roomCapacity: number;
+  public connected = false;
+  public trump: any = null;
+  public points: any = { games: [], total: [] };
+  public scales: any[] = [];
+  public turn = '';
+  public playedCards: string[] = [];
 
   constructor(private env: EnvService,
               private dialog: MatDialog,
               private router: Router,
-              private loadingService: LoadingService) {
-    this.restart();
-  }
+              private loadingService: LoadingService) { }
 
   public connect(): void {
     this.loadingService.startLoading();
@@ -72,13 +69,8 @@ export class SocketsService {
 
   public restart(): void {
     this.connected = false;
-    this.username = '';
-    this.trump = undefined;
-    this.teams = undefined;
-    this.points = {
-      games: [{ A: 0, B: 0 }],
-      total:  { A: 0, B: 0 }
-    };
+    this.trump = null;
+    this.points = { games: [], total: [] };
     this.scales = [];
     this.turn = '';
     this.playedCards = [];
@@ -130,7 +122,7 @@ export class SocketsService {
         orderedUsers.push(data[index]);
         index = (index + 1) % this.roomCapacity;
       }
-      this.updateUsersEvent.emit(orderedUsers);
+      this.updateUsersEvent.emit({ users: data, orderedUsers });
     });
 
     this.socket.on('callTrump', (data: any) => {
