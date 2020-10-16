@@ -37,13 +37,13 @@ section {
   &.c1 {
     right: 50%;
     top: 50%;
-    transform: translate(200%, -50%);
+    transform: translate(200%, -100%);
   }
 
-  &.c2 {
-    top: 0;
+  &.c3 {
     left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-200%, -100%);
   }
 }
 

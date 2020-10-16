@@ -1,7 +1,7 @@
 <div class="sidenav-item">
   <h3>Adut</h3>
   <div *ngIf="socketService.trump">
-    <img src="{{'assets/' + socketService.trump.trump + '.png'}}" alt="{{ socketService.trump.trump }}">
+    <img src="{{'assets/' + socketService.trump.trump + '.png'}}" alt="trump-{{ socketService.trump.trump }}">
     <p>{{ socketService.trump.username }}</p>
   </div>
 </div>

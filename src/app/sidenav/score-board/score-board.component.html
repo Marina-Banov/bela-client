@@ -4,12 +4,12 @@
     <th>B</th>
   </tr></thead>
   <tbody><tr *ngFor="let p of socketService.points.games">
-    <td>{{ p.A }}</td>
-    <td>{{ p.B }}</td>
+    <td>{{ p[0] }}</td>
+    <td>{{ p[1] }}</td>
   </tr></tbody>
   <tfoot><tr>
-    <td>{{ socketService.points.total.A }}</td>
-    <td>{{ socketService.points.total.B }}</td>
+    <td>{{ socketService.points.total[0] }}</td>
+    <td>{{ socketService.points.total[1] }}</td>
   </tr></tfoot>
 </table>
 

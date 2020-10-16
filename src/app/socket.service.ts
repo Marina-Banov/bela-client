@@ -8,6 +8,7 @@ import { ScalesComponent } from './dialogs/scales/scales.component';
 import { EnvService } from '../environments/env.service';
 import { Router } from '@angular/router';
 import { LoadingService } from './loading.service';
+import * as Models from './classes';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class SocketService {
   private socket: any;
   private username: string;
   private roomId: string;
-  private hand: any;
+  private hand: Models.Hand;
   private dialogRef: MatDialogRef<any>;
 
   public handEvent = new EventEmitter<any>();
@@ -28,12 +29,12 @@ export class SocketService {
   public callBelaEvent = new EventEmitter<string>();
 
   public roomCapacity: number;
-  public connected = false;
-  public trump: any = null;
-  public points: any = { games: [], total: [] };
-  public scales: any[] = [];
-  public turn = '';
-  public playedCards: string[] = [];
+  public connected: boolean;
+  public trump: Models.SetTrump;
+  public points: Models.Points;
+  public scales: Models.StoreScale[];
+  public turn: string;
+  public playedCards: Models.AcceptCard[];
 
   constructor(private env: EnvService,
               private dialog: MatDialog,
@@ -53,6 +54,7 @@ export class SocketService {
       roomCapacity : this.roomCapacity,
       hand : this.hand
     });
+    this.restart();
     this.setEvents();
     // this.connected = true;
     // this.newUser(sessionStorage.getItem('username'));
@@ -70,7 +72,10 @@ export class SocketService {
   public restart(): void {
     this.connected = false;
     this.trump = null;
-    this.points = { games: [], total: [] };
+    this.points = {
+      games: [this.roomCapacity === 3 ? [0, 0, 0] : [0, 0]],
+      total: this.roomCapacity === 3 ? [0, 0, 0] : [0, 0]
+    };
     this.scales = [];
     this.turn = '';
     this.playedCards = [];
@@ -91,11 +96,11 @@ export class SocketService {
       }, 2000);
     });
 
-    this.socket.on('message', (data: string) => {
+    this.socket.on('message', (message: string) => {
       if (!this.dialogRef) {
-        this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: { message: data, dotted: true } });
+        this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: { message, dotted: true } });
       } else {
-        this.dialogRef.componentInstance.data = { message: data, dotted: true };
+        this.dialogRef.componentInstance.data = { message, dotted: true };
       }
     });
 
@@ -105,8 +110,9 @@ export class SocketService {
       this.dialogRef.afterClosed().subscribe(d => this.emit('reorderPlayers', d));
     });
 
-    this.socket.on('hand', (data: any) => {
+    this.socket.on('hand', (data: Models.Hand) => {
       this.loadingService.stopLoading();
+      this.hand = data;
       sessionStorage.setItem('hand', JSON.stringify(data.hand));
       this.handEvent.emit(data);
       if (data.hand.length === 12) {
@@ -114,7 +120,7 @@ export class SocketService {
       }
     });
 
-    this.socket.on('updateUsers', (data: any) => {
+    this.socket.on('updateUsers', (data: string[]) => {
       this.dialogRef.close();
       let index = data.indexOf(data.find(x => x === this.username));
       const orderedUsers = [];
@@ -125,7 +131,7 @@ export class SocketService {
       this.updateUsersEvent.emit({ users: data, orderedUsers });
     });
 
-    this.socket.on('callTrump', (data: any) => {
+    this.socket.on('callTrump', (data: Models.CallTrump) => {
       this.turn = data.username;
       if (data.username === this.username) {
         this.dialogRef = this.dialog.open(TrumpsComponent, { disableClose: true, autoFocus: false, data: data.lastCall });
@@ -135,7 +141,7 @@ export class SocketService {
       }
     });
 
-    this.socket.on('setTrump', (data: any) => {
+    this.socket.on('setTrump', (data: Models.SetTrump) => {
       this.trump = data;
     });
 
@@ -146,36 +152,36 @@ export class SocketService {
       }
     });
 
-    this.socket.on('announceScale', (data: any) => {
+    this.socket.on('announceScale', (data: Models.AnnounceScale) => {
       if (data.bela) {
         this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: { message: 'BELA!', dotted: false } });
         setTimeout( () => { this.dialogRef.close(); }, 1000);
       } else {
-        const points = data.points ? data.points : 'Dalje!';
+        const points = data.points ? data.points.toString() : 'Dalje!';
         this.scales.push({ username: data.username, points });
       }
     });
 
-    this.socket.on('showScales', (scales: any) => {
-      this.dialogRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: scales });
-      setTimeout(() => {
-        this.dialogRef.close();
-        this.scales = [];
-      }, 4000);
+    this.socket.on('showScales', (scales: Models.ShowScale[]) => {
+      if (scales.length > 0) {
+        this.dialogRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: scales });
+      }
+      setTimeout(() => { this.dialogRef.close(); }, 4000);
     });
 
-    this.socket.on('matchPoints', (data: any) => {
+    this.socket.on('matchPoints', (data: Models.Points) => {
       this.points = data;
+      this.points.games.unshift(this.roomCapacity === 3 ? [0, 0, 0] : [0, 0]);
       this.playCardEvent.emit(false);
       this.trump = null;
+      this.playedCards = [];
     });
 
-    this.socket.on('gamePoints', (data: any) => {
+    this.socket.on('gamePoints', (data: number[]) => {
       this.points.games[0] = data;
+      this.playedCards = [];
       if (this.scales.length > 0) {
-        setTimeout(() => {
-          this.scales = [];
-        }, 1000);
+        setTimeout(() => { this.scales = []; }, 1000);
       }
     });
 
@@ -195,13 +201,8 @@ export class SocketService {
       setTimeout( () => { this.dialogRef.close(); }, 1000);
     });
 
-    this.socket.on('acceptCard', (data: any) => {
+    this.socket.on('acceptCard', (data: Models.AcceptCard) => {
       this.playedCards.push(data);
-      if (this.playedCards.length === 4) {
-        setTimeout(() => {
-          this.playedCards = [];
-        }, 2000);
-      }
     });
 
     this.socket.on('callBela', (data: any) => {
@@ -210,14 +211,8 @@ export class SocketService {
       }
     });
 
-    this.socket.on('fail', (team: string) => {
-      this.dialogRef = this.dialog.open(NotificationComponent, {
-        disableClose: true,
-        data: {
-          message: 'Tim ' + team + ' je pao!',
-          dotted: false
-        }
-      });
+    this.socket.on('fail', (message: string) => {
+      this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: { message, dotted: false } });
       setTimeout( () => { this.dialogRef.close(); }, 1000);
     });
 
@@ -236,9 +231,7 @@ export class SocketService {
           dotted: false
         }
       });
-      setTimeout(() => {
-        this.disconnect(this.username);
-      }, 4000);
+      setTimeout(() => { this.disconnect(this.username); }, 4000);
     });
   }
 }
