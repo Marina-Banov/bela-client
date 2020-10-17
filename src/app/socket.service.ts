@@ -9,6 +9,7 @@ import { EnvService } from '../environments/env.service';
 import { Router } from '@angular/router';
 import { LoadingService } from './loading.service';
 import * as Models from './classes';
+import { ACTIONS } from './classes';
 
 @Injectable({
   providedIn: 'root'
@@ -86,135 +87,27 @@ export class SocketService {
   }
 
   private setEvents(): void {
-    this.socket.on('noRoom', () => {
-      sessionStorage.removeItem('roomId');
-      sessionStorage.removeItem('roomCapacity');
-      this.socket.disconnect();
-      setTimeout(() => {
-        this.loadingService.stopLoading();
-        this.router.navigate(['/login'], { state: { data: 'Room full' } }).then();
-      }, 2000);
-    });
-
-    this.socket.on('message', (message: string) => {
-      if (!this.dialogRef) {
-        this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: { message, dotted: true } });
-      } else {
-        this.dialogRef.componentInstance.data = { message, dotted: true };
+    this.socket.on('serverMessage', (data: Models.ServerMessage) => {
+      switch (data.action) {
+        case ACTIONS.ACCEPT_CARD:    this.acceptCard(data.username, data.card);      break;
+        case ACTIONS.ANNOUNCE_SCALE: this.announceScale(data.username, data.points); break;
+        case ACTIONS.ARRANGE_USERS:  this.arrangeUsers(data.users);                  break;
+        case ACTIONS.CALL_BELA:      this.callBela(data.card);                       break;
+        case ACTIONS.CALL_SCALE:     this.callScale(data.username);                  break;
+        case ACTIONS.CALL_TRUMP:     this.callTrump(data.username, data.lastCall);   break;
+        case ACTIONS.GAME_POINTS:    this.gamePoints(data.gamePoints);               break;
+        case ACTIONS.INFO:           this.info(data.message);                        break;
+        case ACTIONS.INFO_WAITING:   this.infoWaiting(data.message);                 break;
+        case ACTIONS.MATCH_POINTS:   this.matchPoints(data.games, data.total);       break;
+        case ACTIONS.NO_ROOM:        this.noRoom();                                  break;
+        case ACTIONS.PLAY_CARD:      this.playCard(data.username);                   break;
+        case ACTIONS.SET_HAND:       this.setHand(data.hand, data.displayAll);       break;
+        case ACTIONS.SET_TRUMP:      this.setTrump(data.username, data.trump);       break;
+        case ACTIONS.SHOW_SCALES:    this.showScales(data.scales);                   break;
+        case ACTIONS.UPDATE_USERS:   this.updateUsers(data.users);                   break;
       }
     });
-
-    this.socket.on('arrangeUsers', (data: string[]) => {
-      this.dialogRef.close();
-      this.dialogRef = this.dialog.open(ArrangeUsersComponent, { disableClose: true, data });
-      this.dialogRef.afterClosed().subscribe(d => this.emit('reorderPlayers', d));
-    });
-
-    this.socket.on('hand', (data: Models.Hand) => {
-      this.loadingService.stopLoading();
-      this.hand = data;
-      sessionStorage.setItem('hand', JSON.stringify(data.hand));
-      this.handEvent.emit(data);
-      if (data.hand.length === 12) {
-        this.discardTwo.emit();
-      }
-    });
-
-    this.socket.on('updateUsers', (data: string[]) => {
-      this.dialogRef.close();
-      let index = data.indexOf(data.find(x => x === this.username));
-      const orderedUsers = [];
-      for (let i = 0; i < this.roomCapacity; i++) {
-        orderedUsers.push(data[index]);
-        index = (index + 1) % this.roomCapacity;
-      }
-      this.updateUsersEvent.emit({ users: data, orderedUsers });
-    });
-
-    this.socket.on('callTrump', (data: Models.CallTrump) => {
-      this.turn = data.username;
-      if (data.username === this.username) {
-        this.dialogRef = this.dialog.open(TrumpsComponent, { disableClose: true, autoFocus: false, data: data.lastCall });
-        this.dialogRef.afterClosed().subscribe( trump => {
-          this.emit('calledTrump', trump);
-        });
-      }
-    });
-
-    this.socket.on('setTrump', (data: Models.SetTrump) => {
-      this.trump = data;
-    });
-
-    this.socket.on('callScale', (username: string) => {
-      this.turn = username;
-      if (username === this.username) {
-        this.callScaleEvent.emit();
-      }
-    });
-
-    this.socket.on('announceScale', (data: Models.AnnounceScale) => {
-      if (data.bela) {
-        this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: { message: 'BELA!', dotted: false } });
-        setTimeout( () => { this.dialogRef.close(); }, 1000);
-      } else {
-        const points = data.points ? data.points.toString() : 'Dalje!';
-        this.scales.push({ username: data.username, points });
-      }
-    });
-
-    this.socket.on('showScales', (scales: Models.ShowScale[]) => {
-      if (scales.length > 0) {
-        this.dialogRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: scales });
-      }
-      setTimeout(() => { this.dialogRef.close(); }, 4000);
-    });
-
-    this.socket.on('matchPoints', (data: Models.Points) => {
-      this.points = data;
-      this.points.games.unshift(this.roomCapacity === 3 ? [0, 0, 0] : [0, 0]);
-      this.playCardEvent.emit(false);
-      this.trump = null;
-      this.playedCards = [];
-    });
-
-    this.socket.on('gamePoints', (data: number[]) => {
-      this.points.games[0] = data;
-      this.playedCards = [];
-      if (this.scales.length > 0) {
-        setTimeout(() => { this.scales = []; }, 1000);
-      }
-    });
-
-    this.socket.on('playCard', (username: string) => {
-      this.turn = username;
-      this.playCardEvent.emit(username === this.username);
-    });
-
-    this.socket.on('moveNotAllowed', () => {
-      this.dialogRef = this.dialog.open(NotificationComponent, {
-        disableClose: true,
-        data: {
-          message: 'REKA SAN NE MOŽE!',
-          dotted: false
-        }
-      });
-      setTimeout( () => { this.dialogRef.close(); }, 1000);
-    });
-
-    this.socket.on('acceptCard', (data: Models.AcceptCard) => {
-      this.playedCards.push(data);
-    });
-
-    this.socket.on('callBela', (data: any) => {
-      if (data.username === this.username) {
-        this.callBelaEvent.emit(data.card);
-      }
-    });
-
-    this.socket.on('fail', (message: string) => {
-      this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: { message, dotted: false } });
-      setTimeout( () => { this.dialogRef.close(); }, 1000);
-    });
+    /*
 
     this.socket.on('endMatch', (winningTeam: string) => {
       this.emit('userLeaves', this.username);
@@ -232,6 +125,118 @@ export class SocketService {
         }
       });
       setTimeout(() => { this.disconnect(this.username); }, 4000);
-    });
+    });*/
+  }
+
+  acceptCard(username: string, card: string): void {
+    this.playedCards.push({ username, card });
+  }
+
+  announceScale(username: string, pointsN: number): void {
+    const points = pointsN ? pointsN.toString() : 'Dalje!';
+    this.scales.push({ username, points });
+  }
+
+  arrangeUsers(users: string[]): void {
+    this.dialogRef.close();
+    this.dialogRef = this.dialog.open(ArrangeUsersComponent, { disableClose: true, data: users });
+    this.dialogRef.afterClosed().subscribe(d => this.emit('reorderPlayers', d));
+  }
+
+  callBela(card: string): void {
+    this.callBelaEvent.emit(card);
+  }
+
+  callScale(username: string): void {
+    this.turn = username;
+    if (username === this.username) {
+      this.callScaleEvent.emit();
+    }
+  }
+
+  callTrump(username: string, lastCall: boolean): void {
+    this.turn = username;
+    if (username === this.username) {
+      this.dialogRef = this.dialog.open(TrumpsComponent, { disableClose: true, autoFocus: false, data: lastCall });
+      this.dialogRef.afterClosed().subscribe( trump => {
+        this.emit('calledTrump', trump);
+      });
+    }
+  }
+
+  gamePoints(gamePoints: number[]): void {
+    this.points.games[0] = gamePoints;
+    this.playedCards = [];
+    if (this.scales.length > 0) {
+      setTimeout(() => { this.scales = []; }, 1000);
+    }
+  }
+
+  info(message: string) {
+    this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: { message, dotted: false } });
+    setTimeout( () => { this.dialogRef.close(); }, 1000);
+  }
+
+  infoWaiting(message: string): void {
+    if (!this.dialogRef) {
+      this.dialogRef = this.dialog.open(NotificationComponent, { disableClose: true, data: { message, dotted: true } });
+    } else {
+      this.dialogRef.componentInstance.data = { message, dotted: true };
+    }
+  }
+
+  matchPoints(games: number[][], total: number[]): void {
+    this.points = { games, total };
+    this.points.games.unshift(this.roomCapacity === 3 ? [0, 0, 0] : [0, 0]);
+    this.playCardEvent.emit(false);
+    this.trump = null;
+    this.playedCards = [];
+  }
+
+  noRoom(): void {
+    sessionStorage.removeItem('roomId');
+    sessionStorage.removeItem('roomCapacity');
+    this.socket.disconnect();
+    setTimeout(() => {
+      this.loadingService.stopLoading();
+      this.router.navigate(['/login'], { state: { data: 'Room full' } }).then();
+    }, 2000);
+  }
+
+  playCard(username: string): void {
+    this.turn = username;
+    this.playCardEvent.emit(username === this.username);
+  }
+
+  setHand(hand: Models.Card[], displayAll: boolean): void {
+    this.loadingService.stopLoading();
+    this.hand = { hand, displayAll };
+    sessionStorage.setItem('hand', JSON.stringify(hand));
+    this.handEvent.emit(this.hand);
+    if (hand.length === 12) {
+      this.discardTwo.emit();
+    }
+  }
+
+  setTrump(username: string, trump: string): void {
+    this.trump = { username, trump };
+  }
+
+  showScales(scales: Models.ShowScale[]): void {
+    if (scales.length > 0) {
+      this.dialogRef = this.dialog.open(ScalesComponent, { disableClose: true, autoFocus: false, data: scales });
+    }
+    setTimeout(() => { this.dialogRef.close(); }, 4000);
+  }
+
+  updateUsers(users: string[]): void {
+    this.dialogRef.close();
+    let index = users.indexOf(users.find(x => x === this.username));
+    const orderedUsers = [];
+    for (let i = 0; i < this.roomCapacity; i++) {
+      orderedUsers.push(users[index]);
+      index = (index + 1) % this.roomCapacity;
+    }
+    this.updateUsersEvent.emit({ users, orderedUsers });
   }
 }

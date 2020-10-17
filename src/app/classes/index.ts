@@ -1,4 +1,5 @@
 export * from './hand';
-export * from './trump';
-export * from './scale';
 export * from './points';
+export * from './scale';
+export * from './server-message';
+export * from './trump';

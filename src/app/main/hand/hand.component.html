@@ -35,7 +35,7 @@
     <button class="orange_button" (click)="callBela(false)">NAH</button>
   </div>
 
-  <button class="play_card_button" *ngFor="let card of hand" (click)="playCard(card)">
+  <button class="play_card_button" [disabled]="bela.callBela" *ngFor="let card of hand" (click)="playCard(card)">
     <img src="{{'assets/' + card + '.png'}}" alt="{{ card }}">
   </button>
 </div>
