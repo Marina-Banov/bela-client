@@ -1,0 +1,17 @@
+<div class="sidenav-item">
+  <h3>Adut</h3>
+  <div *ngIf="gameService.trump">
+    <img src="{{'assets/' + gameService.trump.trump + '.png'}}" alt="trump-{{ gameService.trump.trump }}">
+    <p>{{ gameService.trump.username }}</p>
+  </div>
+</div>
+
+<div class="sidenav-item">
+  <h3>Bodovi</h3>
+  <app-score-board></app-score-board>
+</div>
+
+<div class="sidenav-item" *ngIf="gameService.roomCapacity === 4">
+  <h3>Timovi</h3>
+  <app-team-board></app-team-board>
+</div>

@@ -1,0 +1,25 @@
+<section>
+  <div *ngFor="let i of [0, 1, 2];"
+       class="username flex_center_center"
+       [class.turn]="orderedUsernames[i] ? gameService.turn === orderedUsernames[i] : false">
+    <span> {{ orderedUsernames ? orderedUsernames[i] : '' }} </span>
+  </div>
+
+  <div *ngFor="let s of gameService.scales"
+       class="scales"
+       [class.s0]="s.username === orderedUsernames[0]"
+       [class.s1]="s.username === orderedUsernames[1]"
+       [class.s2]="s.username === orderedUsernames[2]">
+    {{ s.points }}
+  </div>
+
+  <div class="container">
+    <div *ngFor="let c of gameService.playedCards"
+         class="cards"
+         [class.c0]="c.username === orderedUsernames[0]"
+         [class.c1]="c.username === orderedUsernames[1]"
+         [class.c3]="c.username === orderedUsernames[2]">
+      <img src="{{'assets/' + c.card + '.png'}}" alt="{{ c.card }}">
+    </div>
+  </div>
+</section>

@@ -1,0 +1,41 @@
+<ul *ngIf="(!cardsToButtons && !cardsToCheckboxes) || (gameService.playedCards.length === 4)">
+  <li *ngFor="let card of hand; let i = index">
+    <img *ngIf="displayAll || i < 6"
+         src="{{'assets/' + card + '.png'}}"
+         alt="{{ card }}">
+  </li>
+</ul>
+
+<form [formGroup]="scaleForm" *ngIf="cardsToCheckboxes">
+  <div class="flex_center_center" *ngIf="scale">
+    <h3>Imaš li zvanja?</h3>
+    <button class="green_button" (click)="calledScale($event, true)">YAS</button>
+    <button class="orange_button" (click)="calledScale($event, false)">NAH</button>
+  </div>
+
+  <div class="flex_center_center" *ngIf="!scale">
+    <h3>Odbaci 2 karte</h3>
+    <button class="green_button"
+            [disabled]="scaleForm.get('scale').value.length !== 2"
+            (click)="calledScale($event, true)">
+      OK
+    </button>
+  </div>
+
+  <label *ngFor="let card of hand">
+    <input type="checkbox" [value]="card" (change)="onCheckChange($event)">
+    <img src="{{'assets/' + card + '.png'}}" alt="{{ card }}">
+  </label>
+</form>
+
+<div *ngIf="cardsToButtons && gameService.playedCards.length !== 4">
+  <div class="flex_center_center" *ngIf="bela.callBela">
+    <h3>Želiš li zvati belu?</h3>
+    <button class="green_button" (click)="callBela(true)">YAS</button>
+    <button class="orange_button" (click)="callBela(false)">NAH</button>
+  </div>
+
+  <button class="play_card_button" [disabled]="bela.callBela" *ngFor="let card of hand" (click)="playCard(card)">
+    <img src="{{'assets/' + card + '.png'}}" alt="{{ card }}">
+  </button>
+</div>

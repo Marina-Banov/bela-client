@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { MainComponent } from './main/main.component';
-import { AuthGuard } from './auth.guard';
-import { EndScreenComponent } from './end-screen/end-screen.component';
+import { LoginComponent } from './components/login/login.component';
+import { MainComponent } from './components/main/main.component';
+import { AuthGuard } from './guards/auth.guard';
+import { EndScreenComponent } from './components/end-screen/end-screen.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },

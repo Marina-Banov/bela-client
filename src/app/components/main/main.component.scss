@@ -1,0 +1,26 @@
+@import "../../../scss/variables";
+
+mat-sidenav-container, .flex_column.flex_space_between, app-sidenav {
+  min-height: 100vh;
+}
+
+app-sidenav {
+  min-width: 220px;
+}
+
+.grey_button {
+  position: absolute;
+  margin: 20px;
+
+  &:hover, &:focus {
+    outline: none;
+    transform: scale(1.15);
+  }
+}
+
+app-main-four, app-main-three {
+  display: block;
+  margin: 40px auto 0;
+  width: 60vw;
+  height: 400px;
+}
