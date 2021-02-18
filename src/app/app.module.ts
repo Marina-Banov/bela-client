@@ -24,7 +24,6 @@ import { EndScreenComponent } from './components/end-screen/end-screen.component
 import { LoadingComponent } from './components/loading/loading.component';
 
 import { AuthGuard } from './guards/auth.guard';
-import { EnvService } from '../environments/env.service';
 
 @NgModule({
   imports: [
@@ -54,8 +53,7 @@ import { EnvService } from '../environments/env.service';
     LoadingComponent
   ],
   providers: [
-    AuthGuard,
-    EnvService
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

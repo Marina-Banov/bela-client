@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { MatDialog } from '@angular/material/dialog';
-import { EnvService } from '../../environments/env.service';
+import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { LoadingService } from './loading.service';
 import * as Models from '../classes';
@@ -19,8 +19,7 @@ export class SocketService {
   private socket: any;
   public roomCapacity: number;
 
-  constructor(private env: EnvService,
-              private dialog: MatDialog,
+  constructor(private dialog: MatDialog,
               private dialogService: DialogRefService,
               private router: Router,
               private loadingService: LoadingService,
@@ -37,7 +36,7 @@ export class SocketService {
 
     this.game.restart();
 
-    this.socket = io(this.env.apiUrl);
+    this.socket = io(environment.apiUrl);
     this.socket.emit('joinRoom', { username, roomId, roomCapacity: this.roomCapacity, hand: null });
     this.setEvents();
   }
