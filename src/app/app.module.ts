@@ -22,7 +22,6 @@ import { NotificationComponent } from './dialogs/notification/notification.compo
 import { EndScreenComponent } from './end-screen/end-screen.component';
 
 import { AuthGuard } from './auth.guard';
-import { EnvService } from '../environments/env.service';
 
 @NgModule({
   imports: [
@@ -57,8 +56,7 @@ import { EnvService } from '../environments/env.service';
     NotificationComponent
   ],
   providers: [
-    AuthGuard,
-    EnvService
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

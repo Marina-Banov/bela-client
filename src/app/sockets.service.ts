@@ -5,7 +5,7 @@ import { WaitingComponent } from './dialogs/waiting/waiting.component';
 import { TrumpsComponent } from './dialogs/trumps/trumps.component';
 import { NotificationComponent } from './dialogs/notification/notification.component';
 import { ScalesComponent } from './dialogs/scales/scales.component';
-import { EnvService } from '../environments/env.service';
+import { environment } from '../environments/environment';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -31,15 +31,14 @@ export class SocketsService {
   public turn: string;
   public playedCards: string[];
 
-  constructor(private env: EnvService,
-              protected dialog: MatDialog,
+  constructor(protected dialog: MatDialog,
               protected router: Router) {
     this.restart();
     this.connect();
   }
 
   public connect(): void {
-    this.socket = io(this.env.apiUrl);
+    this.socket = io(environment.apiUrl);
     this.connected = true;
     this.newUser(sessionStorage.getItem('username'));
   }
