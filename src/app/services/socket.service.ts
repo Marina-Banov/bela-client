@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
@@ -37,7 +37,13 @@ export class SocketService {
     this.game.restart();
 
     this.socket = io(environment.apiUrl);
-    this.socket.emit('joinRoom', { username, roomId, roomCapacity: this.roomCapacity, hand: null });
+    this.socket.emit('clientMessage', {
+      action: ACTIONS.JOIN_ROOM,
+      username,
+      roomId,
+      roomCapacity: this.roomCapacity,
+      hand: null
+    });
     this.setEvents();
   }
 
@@ -98,7 +104,9 @@ export class SocketService {
   private arrangeUsers(users: string[]): void {
     this.dialogService.dialogRef.close();
     this.dialogService.dialogRef = this.dialog.open(DialogArrangeUsersComponent, { disableClose: true, data: users });
-    this.dialogService.dialogRef.afterClosed().subscribe(d => this.emit('reorderPlayers', d));
+    this.dialogService.dialogRef.afterClosed().subscribe(usernames => {
+      this.emit('clientMessage', { action: ACTIONS.REORDER_PLAYERS, usernames });
+    });
   }
 
   private callTrump(username: string, lastCall: boolean): void {
@@ -106,7 +114,7 @@ export class SocketService {
     if (username === this.game.username) {
       this.dialogService.dialogRef = this.dialog.open(DialogTrumpsComponent, { disableClose: true, autoFocus: false, data: lastCall });
       this.dialogService.dialogRef.afterClosed().subscribe( trump => {
-        this.emit('calledTrump', trump);
+        this.emit('clientMessage', { action: ACTIONS.CALLED_TRUMP, trump });
       });
     }
   }

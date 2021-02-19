@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GameService } from '../../services/game.service';
 import { SocketService } from '../../services/socket.service';
+import { ACTIONS } from '../../classes';
 
 @Component({
   selector: 'app-hand',
@@ -62,19 +63,32 @@ export class HandComponent implements OnInit {
   calledScale(event, shouldCall) {
     event.preventDefault();
     if (this.scale) {
-      this.socketService.emit('calledScale', shouldCall ? this.scaleForm.get('scale').value : []);
+      this.socketService.emit('clientMessage', {
+        action: ACTIONS.CALLED_SCALE,
+        cards: shouldCall ? this.scaleForm.get('scale').value : []
+      });
     } else {
-      this.socketService.emit('discarded', this.scaleForm.get('scale').value);
+      this.socketService.emit('clientMessage', {
+        action: ACTIONS.DISCARDED,
+        cards: this.scaleForm.get('scale').value
+      });
     }
     this.cardsToCheckboxes = false;
   }
 
   playCard(card) {
-    this.socketService.emit('cardPlayed', card);
+    this.socketService.emit('clientMessage', {
+      action: ACTIONS.PLAYED_CARD,
+      card
+    });
   }
 
   callBela(called) {
-    this.socketService.emit('calledBela', { card: this.bela.card, called });
+    this.socketService.emit('clientMessage', {
+      action: ACTIONS.CALLED_BELA,
+      card: this.bela.card,
+      called
+    });
     this.bela.callBela = false;
   }
 
